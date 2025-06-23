@@ -1,0 +1,94 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<UserSecretsId>d0c0a374-b02b-4628-8ac5-3ac408b34527</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Remove="appsettings.Development.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+		<PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="7.0.2">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
+		<PackageReference Include="MudBlazor" Version="6.1.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="NSwag.ApiDescription.Client" Version="13.18.2">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="3.4.0" />
+		<PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Pages\Chat\" />
+	  <Folder Include="Pages\Items\" />
+	  <Folder Include="Pages\Settings\" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Include="wwwroot\Images\dmo_header.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <OpenApiReference Include="appsettings.Development.json" CodeGenerator="NSwagCSharp" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Infra\DigitalWorldOnline.Infrastructure\DigitalWorldOnline.Infrastructure.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Content Update="wwwroot\Images\dmo_login_v1.jpg">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="wwwroot\Images\dmo_login_v2.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Include="wwwroot\Downloads\**\*.*">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <AdditionalFiles Include="Pages\Events\Maps\Mobs\MobCreation.razor" />
+	  <AdditionalFiles Include="Pages\Events\Maps\Mobs\MobDelete.razor" />
+	  <AdditionalFiles Include="Pages\Events\Maps\Mobs\MobDuplicate.razor" />
+	  <AdditionalFiles Include="Pages\Events\Maps\Mobs\Mobs.razor" />
+	  <AdditionalFiles Include="Pages\Events\Maps\Mobs\MobUpdate.razor" />
+	  <AdditionalFiles Include="Pages\Events\Maps\Raids\RaidCreation.razor" />
+	  <AdditionalFiles Include="Pages\Events\Maps\Raids\RaidDelete.razor" />
+	  <AdditionalFiles Include="Pages\Events\Maps\Raids\RaidDuplicate.razor" />
+	  <AdditionalFiles Include="Pages\Events\Maps\Raids\Raids.razor" />
+	  <AdditionalFiles Include="Pages\Events\Maps\Raids\RaidUpdate.razor" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Pages\Events\Maps\SpawnPoints\SpawnPointCreation.razor" />
+	  <_ContentIncludedByDefault Remove="Pages\Events\Maps\SpawnPoints\SpawnPointDelete.razor" />
+	  <_ContentIncludedByDefault Remove="Pages\Events\Maps\SpawnPoints\SpawnPoints.razor" />
+	  <_ContentIncludedByDefault Remove="Pages\Events\Maps\SpawnPoints\SpawnPointUpdate.razor" />
+	</ItemGroup>
+	
+	<ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+	
+</Project>

@@ -1,0 +1,102 @@
+﻿@page "/servers"
+@attribute [Authorize(Roles = "Administrator")]
+@using DigitalWorldOnline.Commons.Enums;
+@using DigitalWorldOnline.Commons.ViewModel.Servers;
+
+<PageTitle>DSO - Admin</PageTitle>
+
+<MudExpansionPanels Elevation="2" Style="padding-bottom:15px">
+    <MudExpansionPanel>
+        <TitleContent>
+            <MudStack Row="true" Spacing="2">
+                <MudIcon Icon="@Icons.Material.Filled.FilterAlt" class="mr-3"></MudIcon>
+                <MudText>Filters</MudText>
+            </MudStack>
+        </TitleContent>
+        <ChildContent>
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField T="string" @ref="_filterParameter" Label="Name" Variant="Variant.Outlined" ValueChanged="Filter"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" Class="d-flex">
+                    <div class="d-flex ml-auto">
+                        <MudStack Row="true" Spacing="2">
+                            <MudButton Color="Color.Inherit" Variant="Variant.Filled" OnClick="Clear">Clear</MudButton>
+                            <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Refresh">Refresh</MudButton>
+                        </MudStack>
+                    </div>
+                </MudItem>
+
+            </MudGrid>
+        </ChildContent>
+    </MudExpansionPanel>
+</MudExpansionPanels>
+<MudTable FixedHeader="true"
+          FixedFooter="false"
+          ServerData="@(new Func<TableState, Task<TableData<ServerViewModel>>>(ServerReload))"
+          Hover="true"
+          SortLabel="Order by"
+          Loading="true"
+          @ref="_table"
+          Elevation="2">
+    <ToolBarContent>
+        <MudStack Row="true" Spacing="2">
+            <MudIcon Icon="@Icons.Material.Filled.Storage" Class="icon-title"></MudIcon>
+            <MudText Typo="Typo.h5"><b>Servers</b></MudText>
+        </MudStack>
+        <MudSpacer />
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Create">New server</MudButton>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Name" T="ServerViewModel"><b>Name</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Experience" T="ServerViewModel"><b>Experience</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Maintenance" T="ServerViewModel"><b>Maintenance</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Overload" T="ServerViewModel"><b>Overload</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Type" T="ServerViewModel"><b>Type</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Port" T="ServerViewModel"><b>Port</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="CreateDate" T="ServerViewModel"><b>Creation Date</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel Enabled="false" T="ServerViewModel"><b>Actions</b></MudTableSortLabel>
+        </MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Experience">@context.Experience %</MudTd>
+        <MudTd DataLabel="Maintenance">@context.Maintenance</MudTd>
+        <MudTd DataLabel="Overload">@context.Overload</MudTd>
+        <MudTd DataLabel="Type">@context.Type</MudTd>
+        <MudTd DataLabel="Port">@context.Port</MudTd>
+        <MudTd DataLabel="CreateDate">@context.CreateDate</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(() => Update(context.Id))" Title="Update" Size="Size.Small"></MudIconButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="@(() => Delete(context.Id))" Title="Delete" Size="Size.Small"></MudIconButton>
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>No data found.</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Agumon is bringing the data, wait a second...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager InfoFormat="Showing {first_item}-{last_item} of {all_items}"
+                       PageSizeOptions="new int[]{10, 25, 50, 100}"
+                       HorizontalAlignment="HorizontalAlignment.Center"
+                       RowsPerPageString="Rows per page:" />
+    </PagerContent>
+</MudTable>

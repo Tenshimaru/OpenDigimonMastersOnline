@@ -1,0 +1,94 @@
+﻿@page "/containers"
+@attribute [Authorize(Roles = "Administrator, GameMaster")]
+
+@using DigitalWorldOnline.Commons.ViewModel.Containers;
+@using DigitalWorldOnline.Commons.ViewModel.Scans;
+@using DigitalWorldOnline.Commons.Enums;
+
+<PageTitle>DSO - Admin</PageTitle>
+
+<MudExpansionPanels Elevation="2" Style="padding-bottom:15px">
+    <MudExpansionPanel>
+        <TitleContent>
+            <MudStack Row="true" Spacing="2">
+                <MudIcon Icon="@Icons.Material.Filled.FilterAlt" class="mr-3"></MudIcon>
+                <MudText>Filters</MudText>
+            </MudStack>
+        </TitleContent>
+        <ChildContent>
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField T="string" @ref="_filterParameter" Label="Item Id or Item Name" Variant="Variant.Outlined" ValueChanged="Filter"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" Class="d-flex">
+                    <div class="d-flex ml-auto">
+                        <MudStack Row="true" Spacing="2">
+                            <MudButton Color="Color.Inherit" Variant="Variant.Filled" OnClick="Clear">Clear</MudButton>
+                            <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Refresh">Refresh</MudButton>
+                        </MudStack>
+                    </div>
+                </MudItem>
+
+            </MudGrid>
+        </ChildContent>
+    </MudExpansionPanel>
+</MudExpansionPanels>
+
+<MudTable FixedHeader="true"
+    FixedFooter="false"
+    ServerData="@(new Func<TableState, Task<TableData<ContainerViewModel>>>(ServerReload))"
+    Hover="true"
+    SortLabel="Order by"
+    Loading="true"
+    @ref="_table"
+    Elevation="2">
+    <ToolBarContent>
+        <MudStack Row="true" Spacing="2">
+            <MudIcon Icon="@Icons.Material.Filled.Outbox" Class="icon-title"></MudIcon>
+            <MudText Typo="Typo.h5"><b>Container Configs</b></MudText>
+        </MudStack>
+        <MudSpacer />
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Create">New container config</MudButton>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>
+            <MudTableSortLabel SortLabel="ItemId" T="ContainerViewModel"><b>Item Id</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="ItemName" T="ContainerViewModel"><b>Name</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="RewardAmount" T="ContainerViewModel"><b>Reward Amount</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel Enabled="false" T="ContainerViewModel"><b>Available Rewards</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel Enabled="false" T="ContainerViewModel"><b>Actions</b></MudTableSortLabel>
+        </MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="ItemId">@context.ItemId</MudTd>
+        <MudTd DataLabel="ItemName">@context.ItemName</MudTd>
+        <MudTd DataLabel="RewardAmount">@context.RewardAmount</MudTd>
+        <MudTd DataLabel="Rewards">@context.Rewards.Count</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(() => Update(context.Id))" Title="Update" Size="Size.Small"></MudIconButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="@(() => Delete(context.Id))" Title="Delete" Size="Size.Small"></MudIconButton>
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>No data found.</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Agumon is bringing the data, wait a second...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager 
+            InfoFormat="Showing {first_item}-{last_item} of {all_items}"
+            PageSizeOptions="new int[]{10, 25, 50, 100}"
+            HorizontalAlignment="HorizontalAlignment.Center"
+            RowsPerPageString="Rows per page:" />
+    </PagerContent>
+</MudTable>

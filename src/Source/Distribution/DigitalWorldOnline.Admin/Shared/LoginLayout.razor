@@ -1,0 +1,27 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="_currentTheme"></MudThemeProvider>
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.False" Style="margin-top:40px;">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+
+    private MudTheme _currentTheme = new MudTheme()
+        {
+            Palette = new Palette()
+            {
+                Primary = "#1976d2",
+                Secondary = "#dc004e",
+                AppbarBackground = "#1565c0",
+                Background = "#f5f5f5",
+                Surface = "#ffffff"
+            }
+        };
+}

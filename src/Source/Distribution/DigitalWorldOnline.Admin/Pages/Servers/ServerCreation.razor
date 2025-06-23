@@ -1,0 +1,80 @@
+﻿@page "/servers/create"
+@using DigitalWorldOnline.Commons.Enums.Server;
+@attribute [Authorize(Roles = "Administrator")]
+
+<MudPaper Style="overflow-x: hidden;
+        padding: 20px;
+        margin-top: 15px;">
+    <Loader Loading="@Loading">
+        <EditForm Model="@_server" OnValidSubmit="Create">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudIcon Icon="@Icons.Material.Filled.Storage" Class="icon-title"></MudIcon>
+                        <MudText Typo="Typo.h5"><b>New server</b></MudText>
+                    </MudStack>
+                </MudItem>
+
+                <MudItem xs="12" xl="6" sm="6">
+                    <MudTextField 
+                        @bind-Value="_server.Name" 
+                        For="@(() => _server.Name)" 
+                        Label="Name" 
+                        Variant="Variant.Outlined"
+                        Required
+                        RequiredError="Required">
+                    </MudTextField>
+                </MudItem>
+                
+                <MudItem xs="12" xl="6" sm="6">
+                    <MudNumericField
+                        @bind-Value="_server.Experience" 
+                        For="@(() => _server.Experience)" 
+                        Label="Experience" 
+                        Variant="Variant.Outlined"
+                        Min="100"
+                        Max="int.MaxValue"
+                        Required
+                        RequiredError="Required">
+                    </MudNumericField>
+                </MudItem>
+                
+                <MudItem xs="12" xl="6" sm="6">
+                    <MudSelect
+                        Required 
+                        RequiredError="Required"
+                        T="ServerTypeEnum"
+                        For="@(() => _server.Type)"
+                        @bind-Value="_server.Type">
+                            @foreach (ServerTypeEnum value in Enum.GetValues(typeof(ServerTypeEnum)))
+                            {
+                                <MudSelectItem T="ServerTypeEnum" Value="@value">@value</MudSelectItem>
+                            }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" xl="6" sm="6">
+                    <MudNumericField @bind-Value="_server.Port"
+                                     For="@(() => _server.Port)"
+                                     Label="Port"
+                                     Variant="Variant.Outlined"
+                                     Min="7000"
+                                     Max="10000"
+                                     Required
+                                     RequiredError="Required">
+                    </MudNumericField>
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Create</MudButton>
+                        <MudButton Color="Color.Inherit" Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="Return">Cancel</MudButton>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </Loader>
+</MudPaper>

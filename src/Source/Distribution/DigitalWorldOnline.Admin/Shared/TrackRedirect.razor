@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.WebUtilities
+
+@inject NavigationManager Nav
+
+@code 
+{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        Redirect();
+    }
+
+    private void Redirect()
+    {
+        var absoluteUri = Nav.ToAbsoluteUri(Nav.Uri);
+        var currentPage = absoluteUri.PathAndQuery;
+
+        if (!string.IsNullOrEmpty(currentPage) && currentPage != "/" && currentPage != "/login")
+            Nav.NavigateTo($"/login?returnUrl={currentPage}", true);
+        else
+            Nav.NavigateTo($"/login", true);
+    }
+}

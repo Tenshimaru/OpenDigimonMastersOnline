@@ -1,0 +1,75 @@
+﻿@page "/summons"
+@attribute [Authorize(Roles = "Administrator, GameMaster")]
+@using DigitalWorldOnline.Commons.Enums;
+@using DigitalWorldOnline.Commons.ViewModel.Mobs;
+@using DigitalWorldOnline.Commons.ViewModel.Summons;
+@using DigitalWorldOnline.Commons.ViewModel.Maps;
+
+
+<PageTitle>DMO - Admin</PageTitle>
+
+<MudGrid>
+    <MudItem xs="12" sm="6">
+        <MudTextField T="string" @ref="_filterParameter" Label="Map ID" Variant="Variant.Outlined" ValueChanged="Filter"
+                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"></MudTextField>
+    </MudItem>
+
+    <MudItem xs="12" Class="d-flex">
+        <div class="d-flex ml-auto">
+            <MudStack Row="true" Spacing="2">
+                <MudButton Color="Color.Inherit" Variant="Variant.Filled" OnClick="Clear">Clear</MudButton>
+                <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Refresh">Search</MudButton>
+            </MudStack>
+        </div>
+    </MudItem>
+</MudGrid>
+<MudTable FixedHeader="true"
+          FixedFooter="false"
+          ServerData="@(new Func<TableState, Task<TableData<SummonViewModel>>>(ServerReload))"
+          Hover="true"
+          SortLabel="Order by"
+          Loading="true"
+          @ref="_table"
+          Elevation="2">
+    <ToolBarContent>
+        <MudStack Row="true" Spacing="2">
+            <MudIcon Icon="@Icons.Material.Filled.SimCardDownload" Class="icon-title"></MudIcon>
+            <MudText Typo="Typo.h5"><b>Summon Configs</b></MudText>
+        </MudStack>
+        <MudSpacer />
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Create">New summon config</MudButton>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>
+            <MudTableSortLabel SortLabel="IdSummoning" T="SummonViewModel"><b>SummonDTOId</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="ItemId" T="SummonViewModel"><b>ItemId</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel Enabled="false" T="SummonViewModel"><b>MapID</b></MudTableSortLabel>
+        </MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="IdSummoning">@context.Id</MudTd>
+        <MudTd DataLabel="ItemId">@context.ItemId</MudTd>
+        <MudTd>@string.Join(", ", context.Maps)</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.RemoveRedEye" OnClick="@(() => ViewSummonMobs(context.Id))" Title="Mobs" Size="Size.Small"></MudIconButton>
+@*             <MudIconButton Icon="@Icons.Material.Filled.ContentCopy" OnClick="@(() => Duplicate(context.Id))" Title="Duplicate" Size="Size.Small"></MudIconButton>
+ *@            <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="@(() => Delete(context.Id))" Title="Delete" Size="Size.Small"></MudIconButton>
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>No data found.</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Agumon is bringing the data, wait a second...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager InfoFormat="Showing {first_item}-{last_item} of {all_items}"
+                       PageSizeOptions="new int[]{10, 25, 50, 100}"
+                       HorizontalAlignment="HorizontalAlignment.Center"
+                       RowsPerPageString="Rows per page:" />
+    </PagerContent>
+</MudTable>

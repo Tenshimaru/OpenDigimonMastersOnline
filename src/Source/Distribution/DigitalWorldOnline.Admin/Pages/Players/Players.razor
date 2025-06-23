@@ -1,0 +1,111 @@
+﻿@page "/players"
+@using DigitalWorldOnline.Commons.Enums;
+@using DigitalWorldOnline.Commons.ViewModel.Maps;
+@using DigitalWorldOnline.Commons.ViewModel.Players;
+
+<PageTitle>DSO - Admin</PageTitle>
+
+<MudExpansionPanels Elevation="2" Style="padding-bottom:15px">
+    <MudExpansionPanel>
+        <TitleContent>
+            <MudStack Row="true" Spacing="2">
+                <MudIcon Icon="@Icons.Material.Filled.FilterAlt" class="mr-3"></MudIcon>
+                <MudText>Filters</MudText>
+            </MudStack>
+        </TitleContent>
+        <ChildContent>
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField T="string" @ref="_filterParameter" Label="Map Id or Name" Variant="Variant.Outlined" ValueChanged="Filter"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" Class="d-flex">
+                    <div class="d-flex ml-auto">
+                        <MudStack Row="true" Spacing="2">
+                            <MudButton Color="Color.Inherit" Variant="Variant.Filled" OnClick="Clear">Clear</MudButton>
+                            <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Refresh">Refresh</MudButton>
+                        </MudStack>
+                    </div>
+                </MudItem>
+
+            </MudGrid>
+        </ChildContent>
+    </MudExpansionPanel>
+</MudExpansionPanels>
+<MudTable FixedHeader="true"
+            FixedFooter="false"
+          ServerData="@(new Func<TableState, Task<TableData<PlayerViewModel>>>(ServerReload))"
+            Hover="true"
+            SortLabel="Order by"
+            Loading="true"
+            @ref="_table"
+            Elevation="2">
+    <ToolBarContent>
+        <MudStack Row="true" Spacing="2">
+            <MudIcon Icon="@Icons.Material.Filled.PersonPinCircle" Class="icon-title"></MudIcon>
+            <MudText Typo="Typo.h5"><b>Players</b></MudText>
+        </MudStack>
+        <MudSpacer />
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Id" T="PlayerViewModel"><b>Id</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Name" T="PlayerViewModel"><b>Name</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Level" T="PlayerViewModel"><b>Level</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Location.MapId" T="PlayerViewModel"><b>MapId</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="State" T="PlayerViewModel"><b>Connection</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh Style="text-align: center">
+            <b>Actions</b>
+        </MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Level">@context.Level</MudTd>
+        <MudTd DataLabel="Location.MapId">@context.MapId</MudTd>
+        <MudTd DataLabel="State">@context.State</MudTd>
+        <MudTd DataLabel="Actions" Style="text-align: center">
+            <MudStack Row="true" Spacing="1" Justify="Justify.Center">
+                <MudTooltip Text="Edit Player">
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                                   Color="Color.Primary"
+                                   Size="Size.Small"
+                                   Href="@($"/players/edit/{context.Id}")" />
+                </MudTooltip>
+                <MudTooltip Text="View Inventory">
+                    <MudIconButton Icon="@Icons.Material.Filled.Inventory"
+                                   Color="Color.Secondary"
+                                   Size="Size.Small"
+                                   Href="@($"/players/{context.Id}/inventory")" />
+                </MudTooltip>
+                <MudTooltip Text="View Details">
+                    <MudIconButton Icon="@Icons.Material.Filled.Visibility"
+                                   Color="Color.Info"
+                                   Size="Size.Small"
+                                   Href="@($"/players/details/{context.Id}")" />
+                </MudTooltip>
+            </MudStack>
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>No data found.</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Agumon is bringing the data, wait a second...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager InfoFormat="Showing {first_item}-{last_item} of {all_items}"
+                        PageSizeOptions="new int[]{10, 25, 50, 100}"
+                        HorizontalAlignment="HorizontalAlignment.Center"
+                        RowsPerPageString="Rows per page:" />
+    </PagerContent>
+</MudTable>

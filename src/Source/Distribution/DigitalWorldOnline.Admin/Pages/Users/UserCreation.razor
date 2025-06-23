@@ -1,0 +1,67 @@
+﻿@page "/users/create"
+@attribute [Authorize(Roles = "Administrator")]
+@using DigitalWorldOnline.Commons.Enums;
+
+<MudPaper Style="overflow-x: hidden;
+        padding: 20px;
+        margin-top: 15px;">
+    <Loader Loading="@Loading">
+        <EditForm Model="@_user" OnValidSubmit="Create">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudIcon Icon="@Icons.Material.Filled.ManageAccounts" Class="icon-title"></MudIcon>
+                        <MudText Typo="Typo.h5"><b>New user</b></MudText>
+                    </MudStack>
+                </MudItem>
+
+                <MudItem xs="12" xl="6" sm="6">
+                    <MudTextField 
+                        @bind-Value="_user.Username" 
+                        For="@(() => _user.Username)" 
+                        Label="Username" 
+                        Variant="Variant.Outlined"
+                        Required
+                        RequiredError="Required">
+                    </MudTextField>
+                </MudItem>
+                
+                <MudItem xs="12" xl="6" sm="6">
+                    <MudTextField 
+                        InputType="InputType.Password"
+                        @bind-Value="_user.Password" 
+                        For="@(() => _user.Password)" 
+                        Label="Password" 
+                        Variant="Variant.Outlined"
+                        Required
+                        RequiredError="Required">
+                    </MudTextField>
+                </MudItem>
+                
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudSelect
+                        Required 
+                        RequiredError="Required" 
+                        T="UserAccessLevelEnum" 
+                        For="@(() => _user.AccessLevel)" 
+                        @bind-Value="_user.AccessLevel">
+                        @foreach (UserAccessLevelEnum value in Enum.GetValues(typeof(UserAccessLevelEnum)))
+                        {
+                            <MudSelectItem T="UserAccessLevelEnum" Value="@value">@value</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Create</MudButton>
+                        <MudButton Color="Color.Inherit" Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="Return">Cancel</MudButton>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </Loader>
+</MudPaper>

@@ -1,0 +1,82 @@
+﻿@page "/maps/spawnpoints/create/{MapId}"
+@using DigitalWorldOnline.Commons.ViewModel.SpawnPoint;
+@attribute [Authorize(Roles = "Administrator, GameMaster")]
+
+<MudPaper Style="overflow-x: hidden;
+        padding: 20px;
+        margin-top: 15px;">
+    <Loader Loading="@Loading">
+        <EditForm Model="@_spawnPoint" OnValidSubmit="Create">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudIcon Icon="@Icons.Material.Filled.PinDrop" Class="icon-title"></MudIcon>
+                        <MudText Typo="Typo.h5"><b>New spawn point in @_mapName</b></MudText>
+                    </MudStack>
+                </MudItem>
+
+                <MudGrid>
+                    <MudItem xs="3" xl="3" sm="3">
+                    <MudNumericField @bind-Value="_spawnPoint.Index"
+                            For="@(() => _spawnPoint.Index)"
+                            Label="Index"
+                            T="byte"
+                            Variant="Variant.Outlined"
+                            Required
+                            RequiredError="Required"
+                            Min="1"
+                            Max="byte.MaxValue">
+                    </MudNumericField>
+                    </MudItem>
+                                    
+                    <MudItem xs="3" xl="3" sm="3">
+                    <MudNumericField @bind-Value="_spawnPoint.X"
+                                        For="@(() => _spawnPoint.X)"
+                                        Label="X Position"
+                                        T="int"
+                                        Variant="Variant.Outlined"
+                                                Required
+                                        RequiredError="Required"
+                                        Min="0"
+                                        Max="int.MaxValue">
+                    </MudNumericField>
+                    </MudItem>
+                    
+                    <MudItem xs="3" xl="3" sm="3">
+                    <MudNumericField @bind-Value="_spawnPoint.Y"
+                                        For="@(() => _spawnPoint.Y)"
+                                        Label="Y Position"
+                                        T="int"
+                                        Variant="Variant.Outlined"
+                                                Required
+                                        RequiredError="Required"
+                                        Min="0"
+                                        Max="int.MaxValue">
+                    </MudNumericField>
+                    </MudItem>
+
+                    <MudItem xs="3" xl="3" sm="3">
+                    <MudTextField @bind-Value="_spawnPoint.Name"
+                                    For="@(() => _spawnPoint.Name)"
+                                    Label="Alias Name"
+                                    T="string"
+                                    Variant="Variant.Outlined"
+                                    Required
+                                    RequiredError="Required">
+                    </MudTextField>
+                    </MudItem>
+                </MudGrid>
+
+                <MudItem xs="12" xl="12" sm="12">
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Create</MudButton>
+                        <MudButton Color="Color.Inherit" Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="Return">Cancel</MudButton>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </Loader>
+</MudPaper>

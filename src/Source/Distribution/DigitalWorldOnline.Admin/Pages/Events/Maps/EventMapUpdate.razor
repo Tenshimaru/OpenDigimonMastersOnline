@@ -1,0 +1,68 @@
+﻿@page "/events/{EventId}/maps/{MapId}/update"
+@attribute [Authorize(Roles = "Administrator, GameMaster")]
+
+@using DigitalWorldOnline.Commons.Enums.Events
+@using DigitalWorldOnline.Commons.ViewModel.Asset
+
+<MudPaper Style="overflow-x: hidden;
+        padding: 20px;
+        margin-top: 15px;">
+    <Loader Loading="@Loading">
+        <EditForm Model="@_map" OnValidSubmit="Update">
+            <MudGrid>
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudIcon Icon="@Icons.Material.Filled.CatchingPokemon" Class="icon-title"></MudIcon>
+                        <MudText Typo="Typo.h5"><b>Update event config</b></MudText>
+                    </MudStack>
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudAutocomplete @ref="_selectedMap"
+                                     ToStringFunc="@(e => e == null ? null : $"{e.MapId} - {e.Name}")"
+                                     T="MapConfigViewModel"
+                                     Label="Mob Template"
+                                     SearchFunc="GetMapAssets"
+                                     Variant="Variant.Outlined"
+                                     Class="docs-search-bar"
+                                     AdornmentIcon="@Icons.Material.Filled.Search">
+                        <ItemTemplate Context="result">
+                            <MudText><strong>@result.MapId</strong> - @result.Name</MudText>
+                        </ItemTemplate>
+                    </MudAutocomplete>
+                </MudItem>
+
+                <MudItem xs="6" xl="6" sm="6">
+                    <MudNumericField @bind-Value="_map.Channels"
+                                     Label="Channels"
+                                     Variant="Variant.Outlined"
+                                     Required
+                                     RequiredError="Required"
+                                     Min="1"/>
+                </MudItem>
+
+                <MudItem xs="6" xl="6" sm="6">
+                    <MudCheckBox @bind-Checked="_map.IsEnabled"
+                                 Label="Is Enabled"/>
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Save
+                            changes
+                        </MudButton>
+                        <MudButton Color="Color.Inherit" Variant="Variant.Filled" ButtonType="ButtonType.Button"
+                                   OnClick="Return">Return
+                        </MudButton>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </Loader>
+</MudPaper>

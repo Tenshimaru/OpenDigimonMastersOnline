@@ -1,0 +1,61 @@
+﻿@page "/hatchs"
+@attribute [Authorize(Roles = "Administrator, GameMaster")]
+
+@using DigitalWorldOnline.Commons.Enums;
+@using DigitalWorldOnline.Commons.ViewModel.Hatchs;
+
+<PageTitle>DSO - Admin</PageTitle>
+
+<MudTable FixedHeader="true"
+    FixedFooter="false"
+          ServerData="@(new Func<TableState, Task<TableData<HatchViewModel>>>(ServerReload))"
+    Hover="true"
+    SortLabel="Order by"
+    Loading="true"
+    @ref="_table"
+    Elevation="2">
+    <ToolBarContent>
+        <MudStack Row="true" Spacing="2">
+            <MudIcon Icon="@Icons.Material.Filled.Egg" Class="icon-title"></MudIcon>
+            <MudText Typo="Typo.h5"><b>Hatch Configs</b></MudText>
+        </MudStack>
+        <MudSpacer />
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Create">New hatch config</MudButton>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Type" T="HatchViewModel"><b>Type</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="SuccessChance" T="HatchViewModel"><b>SuccessChance</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="BreakChance" T="HatchViewModel"><b>BreakChance</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel Enabled="false" T="HatchViewModel"><b>Actions</b></MudTableSortLabel>
+        </MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Type">@context.Type</MudTd>
+        <MudTd DataLabel="Success Chance">@context.SuccessChance</MudTd>
+        <MudTd DataLabel="Break Chance">@context.BreakChance</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(() => Update(context.Id))" Title="Update" Size="Size.Small"></MudIconButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="@(() => Delete(context.Id))" Title="Delete" Size="Size.Small"></MudIconButton>
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>No data found.</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Agumon is bringing the data, wait a second...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager 
+            InfoFormat="Showing {first_item}-{last_item} of {all_items}"
+            PageSizeOptions="new int[]{10, 25, 50, 100}"
+            HorizontalAlignment="HorizontalAlignment.Center"
+            RowsPerPageString="Rows per page:" />
+    </PagerContent>
+</MudTable>

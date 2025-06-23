@@ -1,0 +1,708 @@
+﻿@page "/maps/mobs/update/{MobId}"
+@attribute [Authorize(Roles = "Administrator, GameMaster")]
+
+@using DigitalWorldOnline.Commons.Enums.ClientEnums;
+@using DigitalWorldOnline.Commons.ViewModel.Mobs;
+@using DigitalWorldOnline.Commons.Enums;
+@using DigitalWorldOnline.Commons.ViewModel.Asset;
+
+<MudPaper Style="overflow-x: hidden;
+        padding: 20px;
+        margin-top: 15px;">
+    <Loader Loading="@Loading">
+        <EditForm Model="@_mob" OnValidSubmit="Update">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudIcon Icon="@Icons.Material.Filled.Android" Class="icon-title"></MudIcon>
+                        <MudText Typo="Typo.h5"><b>Update mob</b></MudText>
+                    </MudStack>
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudAutocomplete @ref="_selectedMobAsset"
+                                     ToStringFunc="@(e => e == null ? null : $"{e.Type} - {e.Name}")"
+                                     T="MobAssetViewModel"
+                                     Label="Mob Template"
+                                     SearchFunc="GetMobAssets"
+                                     ValueChanged="UpdateMobFields"
+                                     Variant="Variant.Outlined"
+                                     Class="docs-search-bar"
+                                     AdornmentIcon="@Icons.Material.Filled.Search">
+                        <ItemTemplate Context="result">
+                            <MudText><strong>@result.Type</strong> - @result.Name</MudText>
+                        </ItemTemplate>
+                    </MudAutocomplete>
+                </MudItem>
+
+                <MudExpansionPanels Elevation="2" Style="padding-bottom:15px">
+                    <MudExpansionPanel>
+                        <TitleContent>
+                            <MudStack Row="true" Spacing="2">
+                                <MudText>Base Information</MudText>
+                            </MudStack>
+                        </TitleContent>
+                        <ChildContent>
+                            <MudGrid>
+                                <MudItem xs="3" xl="3" sm="3">
+                                <MudNumericField @bind-Value="_mob.Type"
+                                    For="@(() => _mob.Type)"
+                                    Label="Type"
+                                    T="int"
+                                    Variant="Variant.Outlined"
+                                            Required
+                                    RequiredError="Required"
+                                    Min="0"
+                                    Max="int.MaxValue">
+                                </MudNumericField>
+                                </MudItem>
+                                    
+                                <MudItem xs="3" xl="3" sm="3">
+                                <MudNumericField @bind-Value="_mob.Model"
+                                                    For="@(() => _mob.Model)"
+                                                    Label="Model"
+                                                    T="int"
+                                                    Variant="Variant.Outlined"
+                                                            Required
+                                                    RequiredError="Required"
+                                                    Min="0"
+                                                    Max="int.MaxValue">
+                                </MudNumericField>
+                                </MudItem>
+
+                                <MudItem xs="3" xl="3" sm="3">
+                                <MudTextField @bind-Value="_mob.Name"
+                                                For="@(() => _mob.Name)"
+                                                Label="Alias Name"
+                                                T="string"
+                                                Variant="Variant.Outlined"
+                                                    Required
+                                                RequiredError="Required">
+                                </MudTextField>
+                                </MudItem>
+
+                                <MudItem xs="3" xl="3" sm="3">
+                                <MudNumericField @bind-Value="_mob.Level"
+                                                    For="@(() => _mob.Level)"
+                                                    Label="Level"
+                                                    T="byte"
+                                                    Variant="Variant.Outlined"
+                                                            Required
+                                                    RequiredError="Required"
+                                                    Min="1"
+                                                    Max="byte.MaxValue">
+                                </MudNumericField>
+                                </MudItem>
+
+                                <MudItem xs="3" xl="3" sm="3">
+                                <MudNumericField @bind-Value="_mob.RespawnInterval"
+                                                    For="@(() => _mob.RespawnInterval)"
+                                                    Label="Respawn Time"
+                                                    T="int"
+                                                    Variant="Variant.Outlined"
+                                                            Required
+                                                    RequiredError="Required"
+                                                    Min="5"
+                                                    Max="int.MaxValue">
+                                </MudNumericField>
+                                </MudItem>
+
+                            </MudGrid>
+                        </ChildContent>
+                    </MudExpansionPanel>
+                    <MudExpansionPanel>
+                                <TitleContent>
+                                    <MudStack Row="true" Spacing="2">
+                                    <MudText>Status Information</MudText>
+                                    </MudStack>
+                                </TitleContent>
+                                <ChildContent>
+                                    <MudGrid>
+                                    <MudItem xs="3" xl="3" sm="3">
+                                    <MudNumericField @bind-Value="_mob.ARValue"
+                                                     For="@(() => _mob.ARValue)"
+                                                     Label="Attack Range"
+                                                     T="int"
+                                                     Variant="Variant.Outlined"
+                                                              Required
+                                                     RequiredError="Required"
+                                                     Min="150"
+                                                     Max="int.MaxValue">
+                                    </MudNumericField>
+                                    </MudItem>
+                                    <MudItem xs="3" xl="3" sm="3">
+                                    <MudNumericField @bind-Value="_mob.ASValue"
+                                                     For="@(() => _mob.ASValue)"
+                                                     Label="Attack Speed"
+                                                     T="int"
+                                                     Variant="Variant.Outlined"
+                                                              Required
+                                                     RequiredError="Required"
+                                                     Min="1000"
+                                                     Max="int.MaxValue">
+                                    </MudNumericField>
+                                    </MudItem>
+                                    <MudItem xs="3" xl="3" sm="3">
+                                    <MudNumericField @bind-Value="_mob.ATValue"
+                                                     For="@(() => _mob.ATValue)"
+                                                     Label="Attack Damage"
+                                                     T="int"
+                                                     Variant="Variant.Outlined"
+                                                              Required
+                                                     RequiredError="Required"
+                                                     Min="0"
+                                                     Max="int.MaxValue">
+                                    </MudNumericField>
+                                    </MudItem>
+
+                                    <MudItem xs="3" xl="3" sm="3">
+                                    <MudNumericField @bind-Value="_mob.BLValue"
+                                                     For="@(() => _mob.BLValue)"
+                                                     Label="Block Damage"
+                                                     T="int"
+                                                     Variant="Variant.Outlined"
+                                                              Required
+                                                     RequiredError="Required"
+                                                     Min="0"
+                                                     Max="int.MaxValue">
+                                    </MudNumericField>
+                                    </MudItem>
+
+                                    <MudItem xs="3" xl="3" sm="3">
+                                    <MudNumericField @bind-Value="_mob.CTValue"
+                                                     For="@(() => _mob.CTValue)"
+                                                     Label="Critical Hit"
+                                                     T="int"
+                                                     Variant="Variant.Outlined"
+                                                              Required
+                                                     RequiredError="Required"
+                                                     Min="0"
+                                                     Max="int.MaxValue">
+                                    </MudNumericField>
+                                    </MudItem>
+
+                                    <MudItem xs="3" xl="3" sm="3">
+                                    <MudNumericField @bind-Value="_mob.DEValue"
+                                                     For="@(() => _mob.DEValue)"
+                                                     Label="Defense Points"
+                                                     T="int"
+                                                     Variant="Variant.Outlined"
+                                                              Required
+                                                     RequiredError="Required"
+                                                     Min="0"
+                                                     Max="int.MaxValue">
+                                    </MudNumericField>
+                                    </MudItem>
+
+                                    <MudItem xs="3" xl="3" sm="3">
+                                    <MudNumericField @bind-Value="_mob.EVValue"
+                                                     For="@(() => _mob.EVValue)"
+                                                     Label="Evasion Points"
+                                                     T="int"
+                                                     Variant="Variant.Outlined"
+                                                              Required
+                                                     RequiredError="Required"
+                                                     Min="0"
+                                                     Max="int.MaxValue">
+                                    </MudNumericField>
+                                    </MudItem>
+
+                                    <MudItem xs="3" xl="3" sm="3">
+                                    <MudNumericField @bind-Value="_mob.HPValue"
+                                                     For="@(() => _mob.HPValue)"
+                                                     Label="Health"
+                                                     T="int"
+                                                     Variant="Variant.Outlined"
+                                                              Required
+                                                     RequiredError="Required"
+                                                     Min="1"
+                                                     Max="int.MaxValue">
+                                    </MudNumericField>
+                                    </MudItem>
+
+                                    <MudItem xs="3" xl="3" sm="3">
+                                    <MudNumericField @bind-Value="_mob.HTValue"
+                                                     For="@(() => _mob.HTValue)"
+                                                     Label="Hit Rate"
+                                                     T="int"
+                                                     Variant="Variant.Outlined"
+                                                              Required
+                                                     RequiredError="Required"
+                                                     Min="0"
+                                                     Max="int.MaxValue">
+                                    </MudNumericField>
+                                    </MudItem>
+
+                                    <MudItem xs="3" xl="3" sm="3">
+                                    <MudNumericField @bind-Value="_mob.MSValue"
+                                                     For="@(() => _mob.MSValue)"
+                                                     Label="Run Speed"
+                                                     T="int"
+                                                     Variant="Variant.Outlined"
+                                                              Required
+                                                     RequiredError="Required"
+                                                     Min="0"
+                                                     Max="int.MaxValue">
+                                    </MudNumericField>
+                                    </MudItem>
+
+                                    <MudItem xs="3" xl="3" sm="3">
+                                    <MudNumericField @bind-Value="_mob.WSValue"
+                                                     For="@(() => _mob.WSValue)"
+                                                     Label="Walk Speed"
+                                                     T="int"
+                                                     Variant="Variant.Outlined"
+                                                              Required
+                                                     RequiredError="Required"
+                                                     Min="0"
+                                                     Max="int.MaxValue">
+                                    </MudNumericField>
+                                    </MudItem>
+
+                                    </MudGrid>
+                                </ChildContent>
+                                </MudExpansionPanel>
+                    <MudExpansionPanel>
+                                <TitleContent>
+                                    <MudStack Row="true" Spacing="2">
+                                    <MudText>Extra Information</MudText>
+                                    </MudStack>
+                                </TitleContent>
+                                <ChildContent>
+                                    <MudGrid>
+                                    <MudItem xs="3" xl="3" sm="3">
+                                    <MudNumericField @bind-Value="_mob.ViewRange"
+                                                     For="@(() => _mob.ViewRange)"
+                                                     Label="View Range"
+                                                     T="int"
+                                                     Variant="Variant.Outlined"
+                                                              Required
+                                                     RequiredError="Required"
+                                                     Min="0"
+                                                     Max="int.MaxValue">
+                                    </MudNumericField>
+                                    </MudItem>
+
+                                    <MudItem xs="3" xl="3" sm="3">
+                                    <MudNumericField @bind-Value="_mob.HuntRange"
+                                                     For="@(() => _mob.HuntRange)"
+                                                     Label="Hunt Range"
+                                                     T="int"
+                                                     Variant="Variant.Outlined"
+                                                              Required
+                                                     RequiredError="Required"
+                                                     Min="0"
+                                                     Max="int.MaxValue">
+                                    </MudNumericField>
+                                    </MudItem>
+                                    
+                                 <MudItem xs="3" xl="3" sm="3">
+                                     <MudCheckBox @bind-Checked="_mob.Coliseum" Label="Coliseum"></MudCheckBox>
+                                 </MudItem>
+
+                                   <MudItem xs="3" xl="3" sm="3">
+                                     <MudNumericField @bind-Value="_mob.Round"
+                                                      For="@(() => _mob.Round)"
+                                                      Label="Round"
+                                                      T="byte"
+                                                      Variant="Variant.Outlined"
+                                                              Required
+                                                      RequiredError="Required"
+                                                      Min="0"
+                                                      Max="byte.MaxValue">
+                                     </MudNumericField>
+                                 </MudItem>
+
+                                 <MudItem xs="3" xl="3" sm="3">
+                                     <MudSelect Required
+                                                RequiredError="Required"
+                                                T="DungeonDayOfWeekEnum"
+                                                For="@(() => _mob.WeekDay)"
+                                                @bind-Value="_mob.WeekDay">
+                                         @foreach (DungeonDayOfWeekEnum value in Enum.GetValues(typeof(DungeonDayOfWeekEnum)))
+                                        {
+                                            <MudSelectItem T="DungeonDayOfWeekEnum" Value="@value">@value</MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </MudItem>
+
+                                 <MudItem xs="3" xl="3" sm="3">
+                                     <MudSelect Required
+                                                RequiredError="Required"
+                                                T="ColiseumMobTypeEnum"
+                                                For="@(() => _mob.ColiseumMobType)"
+                                                @bind-Value="_mob.ColiseumMobType">
+                                         @foreach (ColiseumMobTypeEnum value in Enum.GetValues(typeof(ColiseumMobTypeEnum)))
+                                        {
+                                            <MudSelectItem T="ColiseumMobTypeEnum" Value="@value">@value</MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </MudItem>
+
+                                    <MudItem xs="3" xl="3" sm="3">
+                                    <MudSelect Required
+                                               RequiredError="Required"
+                                               T="DigimonAttributeEnum"
+                                               For="@(() => _mob.Attribute)"
+                                               @bind-Value="_mob.Attribute">
+                                        @foreach (DigimonAttributeEnum value in Enum.GetValues(typeof(DigimonAttributeEnum)))
+                                        {
+                                            <MudSelectItem T="DigimonAttributeEnum" Value="@value">@value</MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </MudItem>
+
+                                <MudItem xs="3" xl="3" sm="3">
+                                    <MudSelect Required
+                                               RequiredError="Required"
+                                               T="DigimonElementEnum"
+                                               For="@(() => _mob.Element)"
+                                               @bind-Value="_mob.Element">
+                                        @foreach (DigimonElementEnum value in Enum.GetValues(typeof(DigimonElementEnum)))
+                                        {
+                                            <MudSelectItem T="DigimonElementEnum" Value="@value">@value</MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </MudItem>
+
+                                <MudItem xs="3" xl="3" sm="3">
+                                    <MudSelect Required
+                                               RequiredError="Required"
+                                               T="DigimonFamilyEnum"
+                                               For="@(() => _mob.Family1)"
+                                               @bind-Value="_mob.Family1">
+                                        @foreach (DigimonFamilyEnum value in Enum.GetValues(typeof(DigimonFamilyEnum)))
+                                        {
+                                            <MudSelectItem T="DigimonFamilyEnum" Value="@value">@value</MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </MudItem>
+
+                                <MudItem xs="3" xl="3" sm="3">
+                                    <MudSelect Required
+                                               RequiredError="Required"
+                                               T="DigimonFamilyEnum"
+                                               For="@(() => _mob.Family2)"
+                                               @bind-Value="_mob.Family2">
+                                        @foreach (DigimonFamilyEnum value in Enum.GetValues(typeof(DigimonFamilyEnum)))
+                                        {
+                                            <MudSelectItem T="DigimonFamilyEnum" Value="@value">@value</MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </MudItem>
+
+                                <MudItem xs="3" xl="3" sm="3">
+                                    <MudSelect Required
+                                               RequiredError="Required"
+                                               T="DigimonFamilyEnum"
+                                               For="@(() => _mob.Family3)"
+                                               @bind-Value="_mob.Family3">
+                                        @foreach (DigimonFamilyEnum value in Enum.GetValues(typeof(DigimonFamilyEnum)))
+                                        {
+                                            <MudSelectItem T="DigimonFamilyEnum" Value="@value">@value</MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </MudItem>
+
+                                <MudItem xs="3" xl="3" sm="3">
+                                    <MudSelect Required
+                                               RequiredError="Required"
+                                               T="DigimonReactionTypeEnum"
+                                               For="@(() => _mob.ReactionType)"
+                                               @bind-Value="_mob.ReactionType">
+                                        @foreach (DigimonReactionTypeEnum value in Enum.GetValues(typeof(DigimonReactionTypeEnum)))
+                                        {
+                                            <MudSelectItem T="DigimonReactionTypeEnum" Value="@value">@value</MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </MudItem>
+
+                            </MudGrid>
+                        </ChildContent>
+                    </MudExpansionPanel>
+                    <MudExpansionPanel>
+                        <TitleContent>
+                            <MudStack Row="true" Spacing="2">
+                                <MudText>Location Information</MudText>
+                            </MudStack>
+                        </TitleContent>
+                        <ChildContent>
+                            <MudGrid>
+                                <MudItem xs="3" xl="3" sm="3">
+                                    <MudNumericField @bind-Value="_mob.Location.X"
+                                                     For="@(() => _mob.Location.X)"
+                                                     Label="X Position"
+                                                     T="int"
+                                                     Variant="Variant.Outlined"
+                                                              Required
+                                                     RequiredError="Required"
+                                                     Min="int.MinValue"
+                                                     Max="int.MaxValue">
+                                    </MudNumericField>
+                                    </MudItem>
+
+                                    <MudItem xs="3" xl="3" sm="3">
+                                    <MudNumericField @bind-Value="_mob.Location.Y"
+                                                     For="@(() => _mob.Location.Y)"
+                                                     Label="Y Position"
+                                                     T="int"
+                                                     Variant="Variant.Outlined"
+                                                              Required
+                                                     RequiredError="Required"
+                                                     Min="int.MinValue"
+                                                     Max="int.MaxValue">
+                                    </MudNumericField>
+                                    </MudItem>
+
+                                    </MudGrid>
+                                </ChildContent>
+                                </MudExpansionPanel>
+                    <MudExpansionPanel>
+                        <TitleContent>
+                            <MudStack Row="true" Spacing="2">
+                            <MudText>Experience Information</MudText>
+                            </MudStack>
+                        </TitleContent>
+                        <ChildContent>
+                            <MudGrid>
+                                <MudItem xs="3" xl="3" sm="3">
+                                <MudNumericField @bind-Value="_mob.ExpReward.DigimonExperience"
+                                    For="@(() => _mob.ExpReward.DigimonExperience)"
+                                    Label="Digimon Experience"
+                                    T="long"
+                                    Variant="Variant.Outlined"
+                                    Required
+                                    RequiredError="Required"
+                                    Min="0"
+                                    Max="long.MaxValue">
+                                </MudNumericField>
+                                </MudItem>
+
+                                <MudItem xs="3" xl="3" sm="3">
+                                <MudNumericField @bind-Value="_mob.ExpReward.TamerExperience"
+                                                    For="@(() => _mob.ExpReward.TamerExperience)"
+                                                    Label="Tamer Experience"
+                                                    T="long"
+                                                    Variant="Variant.Outlined"
+                                                            Required
+                                                    RequiredError="Required"
+                                                    Min="long.MinValue"
+                                                    Max="long.MaxValue">
+                                </MudNumericField>
+                                </MudItem>
+
+                                <MudItem xs="3" xl="3" sm="3">
+                                <MudNumericField @bind-Value="_mob.ExpReward.NatureExperience"
+                                                    For="@(() => _mob.ExpReward.NatureExperience)"
+                                                    Label="Attribute Experience"
+                                                    T="short"
+                                                    Variant="Variant.Outlined"
+                                                            Required
+                                                    RequiredError="Required"
+                                                    Min="0"
+                                                    Max="short.MaxValue">
+                                </MudNumericField>
+                                </MudItem>
+
+                                <MudItem xs="3" xl="3" sm="3">
+                                <MudNumericField @bind-Value="_mob.ExpReward.ElementExperience"
+                                                    For="@(() => _mob.ExpReward.ElementExperience)"
+                                                    Label="Element Experience"
+                                                    T="short"
+                                                    Variant="Variant.Outlined"
+                                                            Required
+                                                    RequiredError="Required"
+                                                    Min="0"
+                                                    Max="short.MaxValue">
+                                </MudNumericField>
+                                </MudItem>
+
+                                <MudItem xs="3" xl="3" sm="3">
+                                <MudNumericField @bind-Value="_mob.ExpReward.SkillExperience"
+                                                    For="@(() => _mob.ExpReward.SkillExperience)"
+                                                    Label="Skill Experience"
+                                                    T="short"
+                                                    Variant="Variant.Outlined"
+                                                            Required
+                                                    RequiredError="Required"
+                                                    Min="0"
+                                                    Max="short.MaxValue">
+                                </MudNumericField>
+                                </MudItem>
+                            </MudGrid>
+                        </ChildContent>
+                    </MudExpansionPanel>
+                    <MudExpansionPanel>
+                        <TitleContent>
+                            <MudStack Row="true" Spacing="2">
+                                <MudText>Bits Drop Information</MudText>
+                            </MudStack>
+                        </TitleContent>
+                        <ChildContent>
+                             <MudGrid>
+                                 <MudItem xs="4" xl="4" sm="4">
+                                <MudNumericField @bind-Value="_mob.DropReward.BitsDrop.MinAmount"
+                                    For="@(() => _mob.DropReward.BitsDrop.MinAmount)"
+                                    Label="Bits Min. Amount"
+                                    T="int"
+                                    Variant="Variant.Outlined"
+                                    Required
+                                    RequiredError="Required"
+                                    Min="0"
+                                    Max="int.MaxValue" />
+                                </MudItem>
+                                
+                                <MudItem xs="4" xl="4" sm="4">
+                                <MudNumericField @bind-Value="_mob.DropReward.BitsDrop.MaxAmount"
+                                    For="@(() => _mob.DropReward.BitsDrop.MaxAmount)"
+                                    Label="Bits Max. Amount"
+                                    T="int"
+                                    Variant="Variant.Outlined"
+                                    Required
+                                    RequiredError="Required"
+                                    Min="0"
+                                    Max="int.MaxValue" />
+                                </MudItem>
+                                
+                                <MudItem xs="4" xl="4" sm="4">
+                                <MudNumericField @bind-Value="_mob.DropReward.BitsDrop.Chance"
+                                                     For="@(() => _mob.DropReward.BitsDrop.Chance)"
+                                    Label="Bits Drop Chance"
+                                    T="double"
+                                    Variant="Variant.Outlined"
+                                    Required
+                                    RequiredError="Required"
+                                    Min="0"
+                                    Max="100" />
+                                </MudItem>
+                            </MudGrid>
+                        </ChildContent>
+                    </MudExpansionPanel>
+                    
+                    <MudExpansionPanel>
+                        <TitleContent>
+                            <MudStack Row="true" Spacing="2">
+                                <MudText>Item Drop Information</MudText>
+                            </MudStack>
+                        </TitleContent>
+                        <ChildContent>
+                             <MudGrid>
+                                <MudItem xs="6" xl="6" sm="6">
+                                <MudNumericField @bind-Value="_mob.DropReward.MinAmount"
+                                    For="@(() => _mob.DropReward.MinAmount)"
+                                    Label="Min. Possible Drops"
+                                    T="byte"
+                                    Variant="Variant.Outlined"
+                                    Required
+                                    RequiredError="Required"
+                                    Min="0"
+                                    Max="byte.MaxValue" />
+                                </MudItem>
+
+                                <MudItem xs="6" xl="6" sm="6">
+                                <MudNumericField @bind-Value="_mob.DropReward.MaxAmount"
+                                    For="@(() => _mob.DropReward.MaxAmount)"
+                                    Label="Max. Possible Drops"
+                                    T="byte"
+                                    Variant="Variant.Outlined"
+                                    Required
+                                    RequiredError="Required"
+                                    Min="0"
+                                    Max="byte.MaxValue" />
+                                </MudItem>
+
+                                <MudItem xs="12" xl="12" sm="12">
+                                    <MudTable FixedHeader="true"
+                                                FixedFooter="false"
+                                                Items="@_mob.DropReward.Drops"
+                                                Hover="true"
+                                                Elevation="2">
+                                        <ToolBarContent>
+                                            <MudSpacer />
+                                            <MudStack Row="true" Spacing="2">
+                                                <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="AddDrop">Add drop</MudButton>
+                                            </MudStack>
+                                        </ToolBarContent>
+                                        <HeaderContent>
+                                            <MudTh>
+                                                <MudTableSortLabel T="MobItemDropViewModel"><b>Item</b></MudTableSortLabel>
+                                            </MudTh>
+                                            <MudTh>
+                                                <MudTableSortLabel T="MobItemDropViewModel"><b>Chance</b></MudTableSortLabel>
+                                            </MudTh>
+                                            <MudTh>
+                                                <MudTableSortLabel T="MobItemDropViewModel"><b>Min. Amount</b></MudTableSortLabel>
+                                            </MudTh>
+                                            <MudTh>
+                                                <MudTableSortLabel T="MobItemDropViewModel"><b>Max. Amount</b></MudTableSortLabel>
+                                            </MudTh>
+                                            <MudTh>
+                                                    <MudTableSortLabel Enabled="false" T="MobItemDropViewModel"><b>Actions</b></MudTableSortLabel>
+                                            </MudTh>
+                                        </HeaderContent>
+                                        <RowTemplate Context="drop">
+                                            <MudTd>
+                                                <MudAutocomplete 
+                                                    @bind-Value="drop.ItemInfo"
+                                                    @ref="_selectedItemAsset"
+                                                    ToStringFunc="@(e => e == null ? null : $"{e.ItemId} - {e.Name}")"
+                                                    T="ItemAssetViewModel"
+                                                    Label="Item Template"
+                                                    SearchFunc="GetItemAssets"
+                                                    Variant="Variant.Outlined"
+                                                    Class="docs-search-bar"
+                                                    AdornmentIcon="@Icons.Material.Filled.Search">
+                                                    <ItemTemplate Context="itemAssetResult">
+                                                        <MudText><strong>@itemAssetResult.ItemId</strong> - @itemAssetResult.Name</MudText>
+                                                    </ItemTemplate>
+                                                </MudAutocomplete>
+                                            </MudTd>
+                                            <MudTd>
+                                                <MudNumericField T="double" Min="0" Max="100" @bind-Value=drop.Chance />
+                                            </MudTd>
+                                            <MudTd>
+                                                <MudNumericField T="int" Min="1" Max="int.MaxValue" @bind-Value=drop.MinAmount />
+                                            </MudTd>
+                                            <MudTd>
+                                                <MudNumericField T="int" Min="1" Max="int.MaxValue" @bind-Value=drop.MaxAmount/>
+                                            </MudTd>
+                                            <MudTd>
+                                                <MudIconButton 
+                                                    Icon="@Icons.Material.Filled.Delete" 
+                                                    OnClick="@(() => DeleteDrop(drop.Id))" 
+                                                    Title="Delete" 
+                                                    Size="Size.Medium" />
+                                            </MudTd>
+                                        </RowTemplate>
+                                        <NoRecordsContent>
+                                            <MudText>No data found.</MudText>
+                                        </NoRecordsContent>
+                                        <LoadingContent>
+                                            <MudText>Agumon is bringing the data, wait a second...</MudText>
+                                        </LoadingContent>
+                                        <PagerContent>
+                                            <MudTablePager InfoFormat="Showing {first_item}-{last_item} of {all_items}"
+                                                            PageSizeOptions="new int[]{10, 25, 50, 100}"
+                                                            HorizontalAlignment="HorizontalAlignment.Center"
+                                                            RowsPerPageString="Rows per page:" />
+                                        </PagerContent>
+                                    </MudTable>
+                                </MudItem>
+                            </MudGrid>
+                        </ChildContent>
+                    </MudExpansionPanel>
+                </MudExpansionPanels>
+
+                <MudItem xs="12" xl="12" sm="12">
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Save changes</MudButton>
+                        <MudButton Color="Color.Inherit" Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="Return">Return</MudButton>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </Loader>
+</MudPaper>

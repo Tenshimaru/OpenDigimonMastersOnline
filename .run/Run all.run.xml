@@ -1,0 +1,9 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run all" type="CompoundRunConfigurationType">
+    <toRun name="DigitalWorldOnline.Account" type="LaunchSettings" />
+    <toRun name="DigitalWorldOnline.Character" type="DotNetProject" />
+    <toRun name="DigitalWorldOnline.Game" type="DotNetProject" />
+    <toRun name="DigitalWorldOnline.Routine" type="DotNetProject" />
+    <method v="2" />
+  </configuration>
+</component>

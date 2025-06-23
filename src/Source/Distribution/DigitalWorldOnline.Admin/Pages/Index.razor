@@ -1,0 +1,298 @@
+@page "/"
+@using DigitalWorldOnline.Commons.Enums;
+@using DigitalWorldOnline.Commons.Models
+
+<!-- Header Dashboard -->
+<MudContainer MaxWidth="MaxWidth.False" Class="pa-0 mb-4">
+    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="3">
+        <MudAvatar Size="Size.Large" Color="Color.Primary">
+            <MudIcon Icon="@Icons.Material.Filled.Dashboard" Size="Size.Large" />
+        </MudAvatar>
+        <div>
+            <MudText Typo="Typo.h4" Class="gradient-text">
+                <b>Open Digimon Masters Online - Admin Dashboard</b>
+            </MudText>
+            <MudText Typo="Typo.subtitle1" Color="Color.Secondary">
+                Welcome to the administration center
+            </MudText>
+        </div>
+        <MudSpacer />
+        <MudChip Color="Color.Success" Icon="@Icons.Material.Filled.CheckCircle">
+            System Online
+        </MudChip>
+    </MudStack>
+</MudContainer>
+
+<!-- Stats Cards -->
+<MudGrid Class="mb-4">
+    <MudItem xs="12" sm="6" md="3">
+        <MudCard Elevation="2" Class="hover-lift">
+            <MudCardContent>
+                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                    <div>
+                        <MudText Typo="Typo.subtitle2" Color="Color.Secondary">Total Accounts</MudText>
+                        <MudText Typo="Typo.h4">@TotalAccounts</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Info">Registered accounts</MudText>
+                    </div>
+                    <MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Large" Color="Color.Primary" />
+                </MudStack>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="6" md="3">
+        <MudCard Elevation="2" Class="hover-lift">
+            <MudCardContent>
+                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                    <div>
+                        <MudText Typo="Typo.subtitle2" Color="Color.Secondary">Game Servers</MudText>
+                        <MudText Typo="Typo.h4">@TotalServers</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Success">Configured servers</MudText>
+                    </div>
+                    <MudIcon Icon="@Icons.Material.Filled.Storage" Size="Size.Large" Color="Color.Success" />
+                </MudStack>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="6" md="3">
+        <MudCard Elevation="2" Class="hover-lift">
+            <MudCardContent>
+                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                    <div>
+                        <MudText Typo="Typo.subtitle2" Color="Color.Secondary">Total Events</MudText>
+                        <MudText Typo="Typo.h4">@TotalEvents</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Info">Configured events</MudText>
+                    </div>
+                    <MudIcon Icon="@Icons.Material.Filled.Event" Size="Size.Large" Color="Color.Warning" />
+                </MudStack>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="6" md="3">
+        <MudCard Elevation="2" Class="hover-lift">
+            <MudCardContent>
+                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                    <div>
+                        <MudText Typo="Typo.subtitle2" Color="Color.Secondary">Total Players</MudText>
+                        <MudText Typo="Typo.h4">@TotalPlayers</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Success">Created characters</MudText>
+                    </div>
+                    <MudIcon Icon="@Icons.Material.Filled.HealthAndSafety" Size="Size.Large" Color="Color.Success" />
+                </MudStack>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<Loader Loading="@Loading">
+    <!-- Main Content Grid -->
+    <MudGrid>
+        <!-- Server Status Card -->
+        <MudItem xs="12" md="8">
+            <MudCard Elevation="2" Class="hover-lift">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                            <MudIcon Icon="@Icons.Material.Filled.Storage" Color="Color.Primary" />
+                            <MudText Typo="Typo.h6">Server Status</MudText>
+                        </MudStack>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudGrid>
+                        <MudItem xs="12" md="4">
+                            <MudCard Elevation="1" Class="glass-effect">
+                                <MudCardContent Class="pa-4">
+                                    <MudStack AlignItems="AlignItems.Center" Spacing="2">
+                                        <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Success" Size="Size.Large" />
+                                        <MudText Typo="Typo.h6">Development</MudText>
+                                        <MudDivider />
+                                        <MudStack Spacing="1">
+                                            <MudChip Size="Size.Small" Color="Color.Success">Auth Server: Online</MudChip>
+                                            <MudChip Size="Size.Small" Color="Color.Success">Game Server: Online</MudChip>
+                                            <MudChip Size="Size.Small" Color="Color.Success">Character Server: Online</MudChip>
+                                        </MudStack>
+                                    </MudStack>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+
+                        <MudItem xs="12" md="4">
+                            <MudCard Elevation="1" Class="glass-effect">
+                                <MudCardContent Class="pa-4">
+                                    <MudStack AlignItems="AlignItems.Center" Spacing="2">
+                                        <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Warning" Size="Size.Large" />
+                                        <MudText Typo="Typo.h6">Testing</MudText>
+                                        <MudDivider />
+                                        <MudStack Spacing="1">
+                                            <MudChip Size="Size.Small" Color="Color.Success">Auth Server: Online</MudChip>
+                                            <MudChip Size="Size.Small" Color="Color.Success">Game Server: Online</MudChip>
+                                            <MudChip Size="Size.Small" Color="Color.Error">Character Server: Offline</MudChip>
+                                        </MudStack>
+                                    </MudStack>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+
+                        <MudItem xs="12" md="4">
+                            <MudCard Elevation="1" Class="glass-effect">
+                                <MudCardContent Class="pa-4">
+                                    <MudStack AlignItems="AlignItems.Center" Spacing="2">
+                                        <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Error" Size="Size.Large" />
+                                        <MudText Typo="Typo.h6">Production</MudText>
+                                        <MudDivider />
+                                        <MudStack Spacing="1">
+                                            <MudChip Size="Size.Small" Color="Color.Error">Auth Server: Offline</MudChip>
+                                            <MudChip Size="Size.Small" Color="Color.Error">Game Server: Offline</MudChip>
+                                            <MudChip Size="Size.Small" Color="Color.Error">Character Server: Offline</MudChip>
+                                        </MudStack>
+                                    </MudStack>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <!-- Quick Actions -->
+        <MudItem xs="12" md="4">
+            <MudCard Elevation="2" Class="hover-lift">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                            <MudIcon Icon="@Icons.Material.Filled.Speed" Color="Color.Primary" />
+                            <MudText Typo="Typo.h6">Quick Actions</MudText>
+                        </MudStack>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudStack Spacing="2">
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Material.Filled.Add"
+                                   FullWidth="true"
+                                   Href="/events">
+                            Create Event
+                        </MudButton>
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Secondary"
+                                   StartIcon="@Icons.Material.Filled.PersonAdd"
+                                   FullWidth="true"
+                                   Href="/accounts">
+                            New Account
+                        </MudButton>
+                        <MudButton Variant="Variant.Outlined"
+                                   Color="Color.Info"
+                                   StartIcon="@Icons.Material.Filled.Download"
+                                   FullWidth="true"
+                                   Href="/downloads">
+                            Downloads
+                        </MudButton>
+                        <MudButton Variant="Variant.Outlined"
+                                   Color="Color.Warning"
+                                   StartIcon="@Icons.Material.Filled.Settings"
+                                   FullWidth="true"
+                                   Href="/servers">
+                            Server Settings
+                        </MudButton>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <!-- Game Master Commands -->
+    <MudItem xs="12" Class="mt-4">
+        <MudCard Elevation="2" Class="hover-lift">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                        <MudIcon Icon="@Icons.Material.Filled.Terminal" Color="Color.Primary" />
+                        <MudText Typo="Typo.h6">Game Master Commands</MudText>
+                    </MudStack>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudAlert Severity="Severity.Info" Class="mb-4">
+                    <MudText><b>!</b> - Command identifier | <b>{ }</b> - Required value | <b>[ ]</b> - Optional value</MudText>
+                </MudAlert>
+
+                <MudGrid>
+                    <MudItem xs="12" md="6">
+                        <MudCard Elevation="1" Class="glass-effect">
+                            <MudCardHeader>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.h6">Inventory Commands</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudList Dense="true">
+                                    <MudListItem Icon="@Icons.Material.Filled.Add" Text="!inv add {amount}" />
+                                    <MudListItem Icon="@Icons.Material.Filled.Clear" Text="!inv clear" />
+                                    <MudListItem Icon="@Icons.Material.Filled.Inventory" Text="!item {id} [amount]" />
+                                </MudList>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+
+                    <MudItem xs="12" md="6">
+                        <MudCard Elevation="1" Class="glass-effect">
+                            <MudCardHeader>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.h6">Currency Commands</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudList Dense="true">
+                                    <MudListItem Icon="@Icons.Material.Filled.MonetizationOn" Text="!currency bits {value}" />
+                                    <MudListItem Icon="@Icons.Material.Filled.Diamond" Text="!currency premium {value}" />
+                                    <MudListItem Icon="@Icons.Material.Filled.Star" Text="!currency silk {value}" />
+                                </MudList>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+
+                    <MudItem xs="12" md="6">
+                        <MudCard Elevation="1" Class="glass-effect">
+                            <MudCardHeader>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.h6">Movement Commands</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudList Dense="true">
+                                    <MudListItem Icon="@Icons.Material.Filled.FlightTakeoff" Text="!tp {mapid} [region]" />
+                                    <MudListItem Icon="@Icons.Material.Filled.LocationOn" Text="!pos / !where / !location" />
+                                    <MudListItem Icon="@Icons.Material.Filled.PersonPin" Text="!tpto {playerName}" />
+                                </MudList>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+
+                    <MudItem xs="12" md="6">
+                        <MudCard Elevation="1" Class="glass-effect">
+                            <MudCardHeader>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.h6">Character Commands</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudList Dense="true">
+                                    <MudListItem Icon="@Icons.Material.Filled.TrendingUp" Text="!tamer exp add {value}" />
+                                    <MudListItem Icon="@Icons.Material.Filled.Pets" Text="!digimon exp add {value}" />
+                                    <MudListItem Icon="@Icons.Material.Filled.Security" Text="!godmode {on/off}" />
+                                    <MudListItem Icon="@Icons.Material.Filled.Visibility" Text="!hide / !show" />
+                                </MudList>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                </MudGrid>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</Loader>
+
+

@@ -1,0 +1,55 @@
+﻿@page "/login"
+@layout LoginLayout
+
+<PageTitle>Login</PageTitle>
+
+<Loader Loading=@_loading>
+    <EditForm Model="@_login" OnSubmit="DoLogin">
+        <MudGrid Justify="Justify.Center">
+            <MudPaper Elevation="0">
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudPaper Style="padding:25px"
+                              MaxWidth="360px"
+                              MinWidth="330px"
+                              MinHeight="450px"
+                              MaxHeight="450px"
+                              Elevation="0"
+                              Class="login-elevation">
+                        <MudGrid Justify="Justify.Center">
+                            <MudItem xs="12" xl="12" sm="12">
+                                <MudGrid Justify="Justify.Center" Style="padding:25px">
+                                    <MudPaper Elevation="0">
+                                        <MudItem xs="12" xl="12" sm="12">
+                                            <img src="Images/dmo_login_v2.png" width="400px" height="200px" />
+                                        </MudItem>
+                                    </MudPaper>
+                                </MudGrid>
+                            </MudItem>
+                            <MudItem xs="12" xl="12" sm="12">
+                                <MudGrid Justify="Justify.Center">
+                                    <MudPaper Elevation="0">
+                                        <MudItem xs="12" xl="12" sm="12">
+                                            <MudText Typo="Typo.h4" Color="Color.Primary">Login</MudText>
+                                        </MudItem>
+                                    </MudPaper>
+                                </MudGrid>
+                            </MudItem>
+                            <MudItem xs="12" xl="12" sm="12">
+                                <MudTextField @bind-Value="_login.Username" For="@(() => _login.Username)"
+                                              Label="Username" Variant="Variant.Outlined" Required RequiredError="Username is required"> </MudTextField>
+                            </MudItem>
+                            <MudItem xs="12" xl="12" sm="12">
+                                <MudTextField @bind-Value="_login.Password" For="@(() => _login.Password)"
+                                            Label="Password" Variant="Variant.Outlined" InputType="InputType.Password"
+                                            Required RequiredError="Password is required"></MudTextField>
+                            </MudItem>
+                            <MudItem xs="12" xl="12" sm="12">
+                                <MudButton FullWidth="true" Disabled="@_disabledButton" OnClick="Disable" Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Access</MudButton>
+                            </MudItem>
+                        </MudGrid>
+                    </MudPaper>
+                </MudItem>
+            </MudPaper>
+        </MudGrid>
+    </EditForm>
+</Loader>

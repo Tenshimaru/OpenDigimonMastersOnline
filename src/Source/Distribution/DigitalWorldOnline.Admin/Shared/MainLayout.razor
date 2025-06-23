@@ -1,0 +1,174 @@
+﻿@using Microsoft.AspNetCore.WebUtilities;
+@inherits LayoutComponentBase
+@inject NavigationManager navMan
+
+<MudThemeProvider Theme="_currentTheme" IsDarkMode="_isDarkMode" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<AuthorizeView>
+        <Authorized>
+            <MudLayout>
+                <MudAppBar Elevation="1" Dense="true">
+                    <MudIconButton Icon="@Icons.Material.Filled.Menu"
+                                   Color="Color.Inherit"
+                                   Edge="Edge.Start"
+                                   OnClick="@DrawerToggle" />
+
+                    <!-- Logo e Título -->
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2" Class="ml-2">
+                        <MudImage Src="/Images/dmo_header.png" Height="32" />
+                        <MudText Typo="Typo.h6" Color="Color.Inherit">Open Digimon Masters Online</MudText>
+                    </MudStack>
+
+                    <MudSpacer />
+
+                    <!-- Controles do Header -->
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1">
+                        <MudIconButton Icon="@(_isDarkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)"
+                                       Color="Color.Inherit"
+                                       Title="@(_isDarkMode ? "Light Mode" : "Dark Mode")"
+                                       OnClick="@ToggleDarkMode" />
+                        <MudMenu Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Inherit">
+                            <MudMenuItem Icon="@Icons.Material.Filled.Person">Profile</MudMenuItem>
+                            <MudMenuItem Icon="@Icons.Material.Filled.Settings">Settings</MudMenuItem>
+                            <MudDivider />
+                            <MudMenuItem Icon="@Icons.Material.Filled.ExitToApp" Href="/logout">Logout</MudMenuItem>
+                        </MudMenu>
+                    </MudStack>
+                </MudAppBar>
+                <MudDrawer @bind-Open="_drawerOpen"
+                           Elevation="2"
+                           Variant="@DrawerVariant.Responsive"
+                           ClipMode="@DrawerClipMode.Always">
+                    <MudDrawerHeader>
+                        <MudStack AlignItems="AlignItems.Center" Spacing="1" Class="pa-4">
+                            <MudAvatar Size="Size.Large" Color="Color.Primary">
+                                <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" />
+                            </MudAvatar>
+                            <MudText Typo="Typo.subtitle1" Align="Align.Center">Admin Panel</MudText>
+                            <AuthorizeView Context="innerContext">
+                                <Authorized>
+                                    <MudText Typo="Typo.caption" Align="Align.Center" Color="Color.Secondary">@innerContext.User.Identity.Name</MudText>
+                                </Authorized>
+                                <NotAuthorized>
+                                    <MudText Typo="Typo.caption" Align="Align.Center" Color="Color.Secondary">Open Digimon Masters Online</MudText>
+                                </NotAuthorized>
+                            </AuthorizeView>
+
+                            <!-- Discord Link -->
+                            <MudDivider Class="my-2" />
+                            <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Spacing="1">
+                                <MudIconButton Icon="@Icons.Material.Filled.Chat"
+                                               Color="Color.Primary"
+                                               Size="Size.Small"
+                                               Href="https://discord.gg/VcNuqrW3WH"
+                                               Target="_blank"
+                                               Title="Join our Discord" />
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                    <MudLink Href="https://discord.gg/VcNuqrW3WH" Target="_blank" Color="Color.Primary">
+                                        Join Discord
+                                    </MudLink>
+                                </MudText>
+                            </MudStack>
+                        </MudStack>
+                    </MudDrawerHeader>
+                    <NavMenu />
+                </MudDrawer>
+                <MudMainContent>
+                    <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="pa-4 mt-4">
+                        @Body
+                    </MudContainer>
+                </MudMainContent>
+            </MudLayout>
+        </Authorized>
+        <NotAuthorized>
+            <TrackRedirect />
+        </NotAuthorized>
+    </AuthorizeView>
+
+@code 
+{
+    bool _drawerOpen = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    private bool _isDarkMode = true;
+
+    private MudTheme _currentTheme = new MudTheme()
+    {
+        Palette = new Palette()
+        {
+            Primary = "#1976d2",           // Azul moderno
+            Secondary = "#dc004e",         // Vermelho accent
+            AppbarBackground = "#1565c0",  // Azul escuro
+            Background = "#f5f5f5",        // Cinza claro
+            Surface = "#ffffff",           // Branco
+            DrawerBackground = "#ffffff",
+            DrawerText = "rgba(0,0,0,0.87)",
+            AppbarText = "#ffffff",
+            DrawerIcon = "#1976d2",
+            Success = "#4caf50",
+            Warning = "#ff9800",
+            Error = "#f44336",
+            Info = "#2196f3"
+        },
+        PaletteDark = new PaletteDark()
+        {
+            Primary = "#90caf9",           // Azul claro para dark
+            Secondary = "#f48fb1",         // Rosa claro
+            AppbarBackground = "#1e1e1e",  // Preto suave
+            Background = "#121212",        // Preto material
+            Surface = "#1e1e1e",          // Cinza escuro
+            DrawerBackground = "#1e1e1e",
+            DrawerText = "#ffffff",
+            AppbarText = "#ffffff",
+            DrawerIcon = "#90caf9",
+            Success = "#66bb6a",
+            Warning = "#ffb74d",
+            Error = "#ef5350",
+            Info = "#42a5f5"
+        },
+        Typography = new Typography()
+        {
+            Default = new Default()
+            {
+                FontFamily = new[] { "Nunito", "Roboto", "Helvetica", "Arial", "sans-serif" },
+                FontSize = "0.875rem",
+                FontWeight = 400,
+                LineHeight = 1.43,
+                LetterSpacing = "0.01071em"
+            },
+            H1 = new H1()
+            {
+                FontFamily = new[] { "Nunito", "Roboto", "Helvetica", "Arial", "sans-serif" },
+                FontSize = "6rem",
+                FontWeight = 300,
+                LineHeight = 1.167,
+                LetterSpacing = "-0.01562em"
+            },
+            H2 = new H2()
+            {
+                FontFamily = new[] { "Nunito", "Roboto", "Helvetica", "Arial", "sans-serif" },
+                FontSize = "3.75rem",
+                FontWeight = 300,
+                LineHeight = 1.2,
+                LetterSpacing = "-0.00833em"
+            }
+        }
+    };
+
+    void ToggleDarkMode()
+    {
+        _isDarkMode = !_isDarkMode;
+        StateHasChanged();
+    }
+}

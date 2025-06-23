@@ -1,0 +1,93 @@
+﻿@page "/events/update/{EventId}"
+@attribute [Authorize(Roles = "Administrator, GameMaster")]
+
+@using DigitalWorldOnline.Commons.Enums.Events
+
+<MudPaper Style="overflow-x: hidden;
+        padding: 20px;
+        margin-top: 15px;">
+    <Loader Loading="@Loading">
+        <EditForm Model="@_event" OnValidSubmit="Update">
+            <MudGrid>
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudIcon Icon="@Icons.Material.Filled.CatchingPokemon" Class="icon-title"></MudIcon>
+                        <MudText Typo="Typo.h5"><b>Update event config</b></MudText>
+                    </MudStack>
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                </MudItem>
+
+                <MudItem xs="6" xl="6" sm="6">
+                    <MudTextField @bind-Value="_event.Name"
+                                  Label="Name"
+                                  T="string"
+                                  Variant="Variant.Outlined"
+                                  Required
+                                  RequiredError="Required"/>
+                </MudItem>
+
+                <MudItem xs="6" xl="6" sm="6">
+                    <MudTextField @bind-Value="_event.Description"
+                                  Label="Description"
+                                  T="string"
+                                  Variant="Variant.Outlined"
+                                  Required
+                                  RequiredError="Required"
+                                  Lines="3"/>
+                </MudItem>
+
+                <MudItem xs="6" xl="6" sm="6">
+                    <MudCheckBox @bind-Checked="_event.IsEnabled"
+                                 Label="Is Enabled"/>
+                </MudItem>
+                
+                <MudItem xs="6" xl="6" sm="6">
+                    <MudNumericField @bind-Value="_event.Rounds"
+                                     For="@(() => _event.Rounds)"
+                                     Label="Round"
+                                     T="byte"
+                                     Variant="Variant.Outlined"
+                                     Required
+                                     RequiredError="Required"
+                                     Min="0"
+                                     Max="byte.MaxValue">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="6" xl="6" sm="6">
+                    <MudSelect Required RequiredError="Required" T="EventStartDayEnum" @bind-Value="_event.StartDay">
+                        <MudSelectItem T="EventStartDayEnum" Value="EventStartDayEnum.Everyday">Everyday</MudSelectItem>
+                        <MudSelectItem T="EventStartDayEnum" Value="EventStartDayEnum.Sunday">Sunday</MudSelectItem>
+                        <MudSelectItem T="EventStartDayEnum" Value="EventStartDayEnum.Monday">Monday</MudSelectItem>
+                        <MudSelectItem T="EventStartDayEnum" Value="EventStartDayEnum.Tuesday">Tuesday</MudSelectItem>
+                        <MudSelectItem T="EventStartDayEnum" Value="EventStartDayEnum.Wednesday">Wednesday
+                        </MudSelectItem>
+                        <MudSelectItem T="EventStartDayEnum" Value="EventStartDayEnum.Thursday">Thursday</MudSelectItem>
+                        <MudSelectItem T="EventStartDayEnum" Value="EventStartDayEnum.Friday">Friday</MudSelectItem>
+                        <MudSelectItem T="EventStartDayEnum" Value="EventStartDayEnum.Saturday">Saturday</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="6" xl="6" sm="6">
+                    <MudTimePicker @bind-Time="_event.StartsAt" Label="Start Hour"
+                                   Variant="Variant.Outlined" Required RequiredError="Required"/>
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Save
+                            changes
+                        </MudButton>
+                        <MudButton Color="Color.Inherit" Variant="Variant.Filled" ButtonType="ButtonType.Button"
+                                   OnClick="Return">Return
+                        </MudButton>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </Loader>
+</MudPaper>

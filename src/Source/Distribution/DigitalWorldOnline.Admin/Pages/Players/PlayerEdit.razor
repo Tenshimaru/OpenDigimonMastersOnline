@@ -1,0 +1,283 @@
+@page "/players/edit/{PlayerId:long}"
+@using DigitalWorldOnline.Commons.ViewModel.Players;
+@using DigitalWorldOnline.Commons.Enums;
+@using DigitalWorldOnline.Commons.Enums.Character;
+
+<PageTitle>Edit Player - Open Digimon Masters Online</PageTitle>
+
+<MudPaper Style="overflow-x: hidden;
+        padding: 20px;
+        margin-top: 15px;">
+    <Loader Loading="@Loading">
+        <MudStack Row="true" Spacing="2" AlignItems="AlignItems.Center" Class="mb-4">
+            <MudIcon Icon="@Icons.Material.Filled.Edit" Size="Size.Large" Color="Color.Primary" />
+            <MudText Typo="Typo.h4">Edit Player</MudText>
+            <MudSpacer />
+            <MudButton Variant="Variant.Outlined"
+                       StartIcon="@Icons.Material.Filled.ArrowBack"
+                       Href="/players"
+                       Color="Color.Default">
+                Back to Players
+            </MudButton>
+        </MudStack>
+
+        <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+
+            <!-- Character Information Tab -->
+            <MudTabPanel Text="Character Info" Icon="@Icons.Material.Filled.Person">
+                @if (Player != null)
+                {
+                    <EditForm Model="@Player" OnValidSubmit="SavePlayer">
+                        <MudGrid>
+                            <!-- Basic Information -->
+                            <MudItem xs="12">
+                                <MudText Typo="Typo.h6" Color="Color.Primary">Basic Information</MudText>
+                                <MudDivider Class="mb-4" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudTextField @bind-Value="Player.Name"
+                                              Label="Player Name"
+                                              Required="true"
+                                              RequiredError="Player name is required"
+                                              Variant="Variant.Outlined" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudNumericField T="byte" @bind-Value="Player.Level"
+                                                 Label="Level"
+                                                 Min="1"
+                                                 Max="120"
+                                                 Variant="Variant.Outlined" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudNumericField T="long" @bind-Value="Player.CurrentExperience"
+                                                 Label="Current Experience"
+                                                 Min="0"
+                                                 Variant="Variant.Outlined" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudSelect @bind-Value="Player.Model"
+                                           Label="Character Model"
+                                           Variant="Variant.Outlined">
+                                    <MudSelectItem Value="CharacterModelEnum.MarcusDamon">Marcus Damon</MudSelectItem>
+                                    <MudSelectItem Value="CharacterModelEnum.ThomasNorstein">Thomas Norstein</MudSelectItem>
+                                    <MudSelectItem Value="CharacterModelEnum.YoshinoFujieda">Yoshino Fujieda</MudSelectItem>
+                                    <MudSelectItem Value="CharacterModelEnum.KeenanKrier">Keenan Krier</MudSelectItem>
+                                    <MudSelectItem Value="CharacterModelEnum.TaiKamiya">Tai Kamiya</MudSelectItem>
+                                    <MudSelectItem Value="CharacterModelEnum.MimiTachikawa">Mimi Tachikawa</MudSelectItem>
+                                    <MudSelectItem Value="CharacterModelEnum.MattIshida">Matt Ishida</MudSelectItem>
+                                    <MudSelectItem Value="CharacterModelEnum.TakeruaKaishi">Takeru Kaishi</MudSelectItem>
+                                    <MudSelectItem Value="CharacterModelEnum.HikariKamiya">Hikari Kamiya</MudSelectItem>
+                                    <MudSelectItem Value="CharacterModelEnum.SoraTakenoushi">Sora Takenoushi</MudSelectItem>
+                                    <MudSelectItem Value="CharacterModelEnum.IzzyIzumi">Izzy Izumi</MudSelectItem>
+                                    <MudSelectItem Value="CharacterModelEnum.JoeKido">Joe Kido</MudSelectItem>
+                                </MudSelect>
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudNumericField T="short" @bind-Value="Player.Size"
+                                                 Label="Character Size"
+                                                 Min="1000"
+                                                 Max="20000"
+                                                 Variant="Variant.Outlined" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudTextField Value="@Player.Position.ToString()"
+                                              Label="Character Position"
+                                              Variant="Variant.Outlined"
+                                              ReadOnly="true" />
+                            </MudItem>
+
+                            <!-- Status & Location -->
+                            <MudItem xs="12">
+                                <MudText Typo="Typo.h6" Color="Color.Primary">Status & Location</MudText>
+                                <MudDivider Class="mb-4" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudSelect @bind-Value="Player.State"
+                                           Label="Connection State"
+                                           Variant="Variant.Outlined">
+                                    <MudSelectItem Value="CharacterStateEnum.Disconnected">Disconnected</MudSelectItem>
+                                    <MudSelectItem Value="CharacterStateEnum.Connected">Connected</MudSelectItem>
+                                </MudSelect>
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudSelect @bind-Value="Player.EventState"
+                                           Label="Event State"
+                                           Variant="Variant.Outlined">
+                                    <MudSelectItem Value="CharacterEventStateEnum.None">None</MudSelectItem>
+                                    <MudSelectItem Value="CharacterEventStateEnum.Entering">Entering</MudSelectItem>
+                                </MudSelect>
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudNumericField T="byte" @bind-Value="Player.Channel"
+                                                 Label="Channel"
+                                                 Min="1"
+                                                 Max="10"
+                                                 Variant="Variant.Outlined" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudNumericField T="int" @bind-Value="Player.MapId"
+                                                 Label="Map ID"
+                                                 Variant="Variant.Outlined" />
+                            </MudItem>
+
+                            <!-- Resources -->
+                            <MudItem xs="12">
+                                <MudText Typo="Typo.h6" Color="Color.Primary">Resources & Stats</MudText>
+                                <MudDivider Class="mb-4" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudNumericField T="int" @bind-Value="Player.CurrentHp"
+                                                 Label="Current HP"
+                                                 Min="0"
+                                                 Variant="Variant.Outlined" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudNumericField T="int" @bind-Value="Player.CurrentDs"
+                                                 Label="Current DS"
+                                                 Min="0"
+                                                 Variant="Variant.Outlined" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudNumericField T="int" @bind-Value="Player.XGauge"
+                                                 Label="X Gauge"
+                                                 Min="0"
+                                                 Variant="Variant.Outlined" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudNumericField T="short" @bind-Value="Player.XCrystals"
+                                                 Label="X Crystals"
+                                                 Min="0"
+                                                 Variant="Variant.Outlined" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudNumericField T="short" @bind-Value="Player.CurrentTitle"
+                                                 Label="Current Title ID"
+                                                 Min="0"
+                                                 Variant="Variant.Outlined" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudNumericField T="byte" @bind-Value="Player.DigimonSlots"
+                                                 Label="Digimon Slots"
+                                                 Min="1"
+                                                 Max="5"
+                                                 Variant="Variant.Outlined" />
+                            </MudItem>
+
+                            <!-- Account Information (Read-only) -->
+                            <MudItem xs="12">
+                                <MudText Typo="Typo.h6" Color="Color.Primary">Account Information</MudText>
+                                <MudDivider Class="mb-4" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudTextField Value="@Player.Id.ToString()"
+                                              Label="Character ID"
+                                              Variant="Variant.Outlined"
+                                              ReadOnly="true" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudTextField Value="@Player.AccountId.ToString()"
+                                              Label="Account ID"
+                                              Variant="Variant.Outlined"
+                                              ReadOnly="true" />
+                            </MudItem>
+
+                            <MudItem xs="6" xl="4" sm="6">
+                                <MudTextField Value="@Player.CreateDate.ToString("dd/MM/yyyy HH:mm")"
+                                              Label="Create Date"
+                                              Variant="Variant.Outlined"
+                                              ReadOnly="true" />
+                            </MudItem>
+
+                            <!-- Action Buttons -->
+                            <MudItem xs="12" Class="d-flex justify-end">
+                                <MudStack Row="true" Spacing="2">
+                                    <MudButton Variant="Variant.Outlined"
+                                               Color="Color.Default"
+                                               Href="/players">
+                                        Cancel
+                                    </MudButton>
+                                    <MudButton Variant="Variant.Filled"
+                                               Color="Color.Primary"
+                                               ButtonType="ButtonType.Submit"
+                                               Disabled="@Saving">
+                                        @if (Saving)
+                                        {
+                                            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+                                            <MudText Class="ms-2">Saving...</MudText>
+                                        }
+                                        else
+                                        {
+                                            <MudText>Save Changes</MudText>
+                                        }
+                                    </MudButton>
+                                </MudStack>
+                            </MudItem>
+                        </MudGrid>
+                    </EditForm>
+                }
+                else
+                {
+                    <MudAlert Severity="Severity.Error">
+                        Player not found or failed to load player data.
+                    </MudAlert>
+                }
+            </MudTabPanel>
+
+            <!-- Inventory Management Tab -->
+            <MudTabPanel Text="Inventory" Icon="@Icons.Material.Filled.Inventory">
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudStack Row="true" Spacing="2">
+                            <MudIcon Icon="@Icons.Material.Filled.Inventory" Class="icon-title"></MudIcon>
+                            <MudText Typo="Typo.h5"><b>Inventory Management</b></MudText>
+                        </MudStack>
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudAlert Severity="Severity.Info">
+                            <MudText><strong>Coming Soon</strong></MudText>
+                            <MudText>Inventory management features will be available in a future update.</MudText>
+                        </MudAlert>
+                    </MudItem>
+                </MudGrid>
+            </MudTabPanel>
+
+            <!-- Digimon Management Tab -->
+            <MudTabPanel Text="Digimons" Icon="@Icons.Material.Filled.Pets">
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudStack Row="true" Spacing="2">
+                            <MudIcon Icon="@Icons.Material.Filled.Pets" Class="icon-title"></MudIcon>
+                            <MudText Typo="Typo.h5"><b>Digimon Management</b></MudText>
+                        </MudStack>
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudAlert Severity="Severity.Info">
+                            <MudText><strong>Coming Soon</strong></MudText>
+                            <MudText>Digimon management features will be available in a future update.</MudText>
+                        </MudAlert>
+                    </MudItem>
+                </MudGrid>
+            </MudTabPanel>
+        </MudTabs>
+    </Loader>
+</MudPaper>

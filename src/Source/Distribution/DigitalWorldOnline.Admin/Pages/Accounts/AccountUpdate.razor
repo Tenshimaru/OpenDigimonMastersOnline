@@ -1,0 +1,272 @@
+﻿@page "/accounts/update/{AccountId}"
+@attribute [Authorize(Roles = "Administrator")]
+@using DigitalWorldOnline.Commons.Enums;
+@using DigitalWorldOnline.Commons.Enums.Account;
+
+<MudPaper Style="overflow-x: hidden;
+        padding: 20px;
+        margin-top: 15px;">
+    <Loader Loading="@_loading">
+        <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+            <!-- Account Information Tab -->
+            <MudTabPanel Text="Account Information" Icon="@Icons.Material.Filled.AccountBox">
+                <EditForm Model="@_account" OnValidSubmit="Update">
+                    <MudGrid>
+                        <MudItem xs="12">
+                            <MudStack Row="true" Spacing="2">
+                                <MudIcon Icon="@Icons.Material.Filled.AssignmentTurnedIn" Class="icon-title"></MudIcon>
+                                <MudText Typo="Typo.h5"><b>Update account</b></MudText>
+                            </MudStack>
+                        </MudItem>
+
+                        <!-- Basic Information -->
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.h6" Color="Color.Primary">Basic Information</MudText>
+                            <MudDivider Class="mb-4" />
+                        </MudItem>
+
+                        <MudItem xs="6" xl="4" sm="6">
+                            <MudTextField @bind-Value="_account.Username"
+                                          For="@(() => _account.Username)"
+                                          Label="Username"
+                                          Variant="Variant.Outlined"
+                                          Required
+                                          RequiredError="Required">
+                            </MudTextField>
+                        </MudItem>
+
+                        <MudItem xs="6" xl="4" sm="6">
+                            <MudTextField InputType="InputType.Email"
+                                          @bind-Value="_account.Email"
+                                          For="@(() => _account.Email)"
+                                          Label="E-mail"
+                                          Variant="Variant.Outlined"
+                                          Required
+                                          RequiredError="Required">
+                            </MudTextField>
+                        </MudItem>
+
+                        <MudItem xs="6" xl="4" sm="6">
+                            <MudTextField @bind-Value="_account.DiscordId"
+                                          For="@(() => _account.DiscordId)"
+                                          Label="Discord ID"
+                                          Variant="Variant.Outlined">
+                            </MudTextField>
+                        </MudItem>
+
+                        <MudItem xs="6" xl="4" sm="6">
+                            <MudTextField @bind-Value="_account.SecondaryPassword"
+                                          For="@(() => _account.SecondaryPassword)"
+                                          Label="Secondary Password"
+                                          Variant="Variant.Outlined"
+                                          InputType="InputType.Password">
+                            </MudTextField>
+                        </MudItem>
+
+
+
+                        <MudItem xs="6" xl="4" sm="6">
+                            <MudSelect Label="Access Level"
+                                       Required
+                                       RequiredError="Required"
+                                       T="AccountAccessLevelEnum"
+                                       For="@(() => _account.AccessLevel)"
+                                       @bind-Value="_account.AccessLevel"
+                                       Variant="Variant.Outlined">
+                                <MudSelectItem T="AccountAccessLevelEnum" Value="AccountAccessLevelEnum.Default">Default</MudSelectItem>
+                                <MudSelectItem T="AccountAccessLevelEnum" Value="AccountAccessLevelEnum.Moderator">Moderator</MudSelectItem>
+                                <MudSelectItem T="AccountAccessLevelEnum" Value="AccountAccessLevelEnum.GameMasterOne">Game Master Lv. 1</MudSelectItem>
+                                <MudSelectItem T="AccountAccessLevelEnum" Value="AccountAccessLevelEnum.GameMasterTwo">Game Master Lv. 2</MudSelectItem>
+                                <MudSelectItem T="AccountAccessLevelEnum" Value="AccountAccessLevelEnum.GameMasterThree">Game Master Lv. 3</MudSelectItem>
+                                <MudSelectItem T="AccountAccessLevelEnum" Value="AccountAccessLevelEnum.Administrator">Administrator</MudSelectItem>
+                            </MudSelect>
+                        </MudItem>
+
+                        <!-- Currency & Premium -->
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.h6" Color="Color.Primary">Currency & Premium</MudText>
+                            <MudDivider Class="mb-4" />
+                        </MudItem>
+
+                        <MudItem xs="6" xl="4" sm="6">
+                            <MudNumericField @bind-Value="_account.Premium"
+                                             For="@(() => _account.Premium)"
+                                             Label="Premium"
+                                             Variant="Variant.Outlined"
+                                             Min="0"
+                                             Max="int.MaxValue"
+                                             Required
+                                             RequiredError="Required">
+                            </MudNumericField>
+                        </MudItem>
+
+                        <MudItem xs="6" xl="4" sm="6">
+                            <MudNumericField @bind-Value="_account.Silk"
+                                             For="@(() => _account.Silk)"
+                                             Label="Silk"
+                                             Variant="Variant.Outlined"
+                                             Min="0"
+                                             Max="int.MaxValue"
+                                             Required
+                                             RequiredError="Required">
+                            </MudNumericField>
+                        </MudItem>
+
+                        <MudItem xs="6" xl="4" sm="6">
+                            <MudDatePicker @bind-Date="_account.MembershipExpirationDate"
+                                           Label="Membership Expiration"
+                                           Variant="Variant.Outlined"
+                                           Clearable="true">
+                            </MudDatePicker>
+                        </MudItem>
+
+                        <!-- Additional Settings -->
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.h6" Color="Color.Primary">Additional Settings</MudText>
+                            <MudDivider Class="mb-4" />
+                        </MudItem>
+
+                        <MudItem xs="6" xl="4" sm="6">
+                            <MudSwitch @bind-Checked="_account.ReceiveWelcome"
+                                       For="@(() => _account.ReceiveWelcome)"
+                                       Label="Receive Welcome"
+                                       Color="Color.Primary">
+                            </MudSwitch>
+                        </MudItem>
+
+                        <!-- Dates (Read-only) -->
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.h6" Color="Color.Primary">Account Information</MudText>
+                            <MudDivider Class="mb-4" />
+                        </MudItem>
+
+                        <MudItem xs="6" xl="4" sm="6">
+                            <MudTextField Value="@_account.CreateDate.ToString("dd/MM/yyyy HH:mm")"
+                                          Label="Create Date"
+                                          Variant="Variant.Outlined"
+                                          ReadOnly="true">
+                            </MudTextField>
+                        </MudItem>
+
+                        <MudItem xs="6" xl="4" sm="6">
+                            <MudTextField Value="@(_account.LastConnection?.ToString("dd/MM/yyyy HH:mm") ?? "Never")"
+                                          Label="Last Connection"
+                                          Variant="Variant.Outlined"
+                                          ReadOnly="true">
+                            </MudTextField>
+                        </MudItem>
+
+                        <MudItem xs="6" xl="4" sm="6">
+                            <MudTextField Value="@_account.Id.ToString()"
+                                          Label="Account ID"
+                                          Variant="Variant.Outlined"
+                                          ReadOnly="true">
+                            </MudTextField>
+                        </MudItem>
+
+                        <MudItem xs="12" xl="12" sm="12">
+                            <MudStack Row="true" Spacing="2">
+                                <MudButton Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Update Account</MudButton>
+                                <MudButton Color="Color.Inherit" Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="Return">Cancel</MudButton>
+                            </MudStack>
+                        </MudItem>
+                    </MudGrid>
+                </EditForm>
+            </MudTabPanel>
+
+            <!-- Ban Management Tab -->
+            <MudTabPanel Text="Ban Management" Icon="@Icons.Material.Filled.Block">
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudStack Row="true" Spacing="2">
+                            <MudIcon Icon="@Icons.Material.Filled.Block" Class="icon-title"></MudIcon>
+                            <MudText Typo="Typo.h5"><b>Ban Management</b></MudText>
+                        </MudStack>
+                    </MudItem>
+
+                    <!-- Current Ban Status -->
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.h6" Color="Color.Primary">Current Status</MudText>
+                        <MudDivider Class="mb-4" />
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        @if (_accountBlock != null)
+                        {
+                            <MudAlert Severity="Severity.Warning">
+                                <MudText><strong>Account is currently banned</strong></MudText>
+                                <MudText>Type: @_accountBlock.Type</MudText>
+                                <MudText>Reason: @_accountBlock.Reason</MudText>
+                                <MudText>Start Date: @_accountBlock.StartDate.ToString("dd/MM/yyyy HH:mm")</MudText>
+                                <MudText>End Date: @_accountBlock.EndDate.ToString("dd/MM/yyyy HH:mm")</MudText>
+                            </MudAlert>
+                        }
+                        else
+                        {
+                            <MudAlert Severity="Severity.Success">
+                                <MudText><strong>Account is not banned</strong></MudText>
+                            </MudAlert>
+                        }
+                    </MudItem>
+
+                    <!-- Ban Form -->
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.h6" Color="Color.Primary">Apply Ban</MudText>
+                        <MudDivider Class="mb-4" />
+                    </MudItem>
+
+                    <EditForm Model="@_banModel" OnValidSubmit="BanAccount">
+                        <MudItem xs="6" xl="4" sm="6">
+                            <MudSelect Label="Ban Type"
+                                       Required
+                                       RequiredError="Required"
+                                       T="AccountBlockEnum"
+                                       @bind-Value="_banModel.Type"
+                                       Variant="Variant.Outlined">
+                                <MudSelectItem T="AccountBlockEnum" Value="AccountBlockEnum.Short">Short (1-7 days)</MudSelectItem>
+                                <MudSelectItem T="AccountBlockEnum" Value="AccountBlockEnum.Medium">Medium (1-4 weeks)</MudSelectItem>
+                                <MudSelectItem T="AccountBlockEnum" Value="AccountBlockEnum.Long">Long (1-6 months)</MudSelectItem>
+                                <MudSelectItem T="AccountBlockEnum" Value="AccountBlockEnum.Permanent">Permanent</MudSelectItem>
+                            </MudSelect>
+                        </MudItem>
+
+                        <MudItem xs="6" xl="4" sm="6">
+                            <MudDatePicker @bind-Date="_banModel.StartDate"
+                                           Label="Start Date"
+                                           Variant="Variant.Outlined"
+                                           Required="true">
+                            </MudDatePicker>
+                        </MudItem>
+
+                        <MudItem xs="6" xl="4" sm="6">
+                            <MudDatePicker @bind-Date="_banModel.EndDate"
+                                           Label="End Date"
+                                           Variant="Variant.Outlined"
+                                           Required="true"
+                                           Disabled="@(_banModel.Type == AccountBlockEnum.Permanent)">
+                            </MudDatePicker>
+                        </MudItem>
+
+                        <MudItem xs="12">
+                            <MudTextField @bind-Value="_banModel.Reason"
+                                          Label="Ban Reason"
+                                          Variant="Variant.Outlined"
+                                          Lines="3"
+                                          Required="true"
+                                          RequiredError="Reason is required">
+                            </MudTextField>
+                        </MudItem>
+
+                        <MudItem xs="12">
+                            <MudStack Row="true" Spacing="2">
+                                <MudButton Color="Color.Error" Variant="Variant.Filled" ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Block">
+                                    Apply Ban
+                                </MudButton>
+                            </MudStack>
+                        </MudItem>
+                    </EditForm>
+                </MudGrid>
+            </MudTabPanel>
+        </MudTabs>
+    </Loader>
+</MudPaper>

@@ -1,0 +1,77 @@
+﻿<MudNavMenu>
+    <!-- Dashboard -->
+    <MudNavGroup Text="Dashboard" Icon="@Icons.Material.Filled.Dashboard" Expanded="true">
+        <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Overview</MudNavLink>
+        <AuthorizeView>
+            <MudNavLink Href="/downloads" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Download">Downloads</MudNavLink>
+        </AuthorizeView>
+    </MudNavGroup>
+
+    <!-- Game Management -->
+    <AuthorizeView Roles="Administrator,GameMaster">
+        <Authorized>
+            <MudNavGroup Text="Game Management" Icon="@Icons.Material.Filled.Games">
+                <MudNavLink Href="/events" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Event">Events</MudNavLink>
+                <MudNavLink Href="/maps" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Map">Maps</MudNavLink>
+                <MudNavLink Href="/summons" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AutoAwesome">Summons</MudNavLink>
+                <MudNavLink Href="/containers" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Inventory">Containers</MudNavLink>
+                <MudNavLink Href="/scans" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Scanner">Scans</MudNavLink>
+            </MudNavGroup>
+        </Authorized>
+        <NotAuthorized>
+            <MudNavGroup Text="Game Management" Icon="@Icons.Material.Filled.Games" Disabled="true">
+                <MudText Typo="Typo.caption" Class="pa-4" Color="Color.Secondary">Access restricted</MudText>
+            </MudNavGroup>
+        </NotAuthorized>
+    </AuthorizeView>
+
+    <!-- User Management -->
+    <AuthorizeView Roles="Administrator">
+        <Authorized>
+            <MudNavGroup Text="User Management" Icon="@Icons.Material.Filled.People">
+                <MudNavLink Href="/accounts" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AccountBox">Game Accounts</MudNavLink>
+                <MudNavLink Href="/users" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.ManageAccounts">Admin Users</MudNavLink>
+                <MudNavLink Href="/players" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Person">Players</MudNavLink>
+            </MudNavGroup>
+        </Authorized>
+        <NotAuthorized>
+            <MudNavGroup Text="User Management" Icon="@Icons.Material.Filled.People" Disabled="true">
+                <MudText Typo="Typo.caption" Class="pa-4" Color="Color.Secondary">Access restricted</MudText>
+            </MudNavGroup>
+        </NotAuthorized>
+    </AuthorizeView>
+
+    <!-- Game Content -->
+    <AuthorizeView Roles="Administrator,GameMaster">
+        <Authorized>
+            <MudNavGroup Text="Game Content" Icon="@Icons.Material.Filled.Extension">
+                <MudNavLink Href="/mobs" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Pets">Mobs</MudNavLink>
+                <MudNavLink Href="/raids" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Group">Raids</MudNavLink>
+                <MudNavLink Href="/clones" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.ContentCopy">Clones</MudNavLink>
+                <MudNavLink Href="/hatchs" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Egg">Hatching</MudNavLink>
+                <MudNavLink Href="/spawnpoints" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.LocationOn">Spawn Points</MudNavLink>
+                <MudNavLink Href="/summonmobs" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AutoAwesome">Summon Mobs</MudNavLink>
+            </MudNavGroup>
+        </Authorized>
+        <NotAuthorized>
+            <MudNavGroup Text="Game Content" Icon="@Icons.Material.Filled.Extension" Disabled="true">
+                <MudText Typo="Typo.caption" Class="pa-4" Color="Color.Secondary">Access restricted</MudText>
+            </MudNavGroup>
+        </NotAuthorized>
+    </AuthorizeView>
+
+    <!-- System -->
+    <AuthorizeView Roles="Administrator">
+        <Authorized>
+            <MudNavGroup Text="System" Icon="@Icons.Material.Filled.Settings">
+                <MudNavLink Href="/servers" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Storage">Servers</MudNavLink>
+                <MudNavLink Href="/logs" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Description">Logs</MudNavLink>
+            </MudNavGroup>
+        </Authorized>
+        <NotAuthorized>
+            <MudNavGroup Text="System" Icon="@Icons.Material.Filled.Settings" Disabled="true">
+                <MudText Typo="Typo.caption" Class="pa-4" Color="Color.Secondary">Access restricted</MudText>
+            </MudNavGroup>
+        </NotAuthorized>
+    </AuthorizeView>
+</MudNavMenu>

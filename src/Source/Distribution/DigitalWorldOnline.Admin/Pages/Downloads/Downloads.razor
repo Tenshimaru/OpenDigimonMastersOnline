@@ -1,0 +1,53 @@
+﻿@page "/downloads"
+@attribute [Authorize]
+
+<PageTitle>DMO - Downloads</PageTitle>
+
+<MudPaper Style="padding: 18px;
+        margin-top: 15px;">
+    <MudGrid>
+
+        <MudItem xl="12" xs="12" sm="12">
+            <MudText>
+                Thanks for downloading Digital Shinka Online!
+                Select your package bellow, according to your system requirements.
+
+                Join our <b><a href="https://discord.gg/WRRxxFGM3K">Discord</a></b> for more info.
+            </MudText>
+        </MudItem>
+
+        <MudItem xl="6" xs="6" sm="6">
+            <MudButton
+                OnClick="@DownloadX64"
+                Disabled="@_isLoading"
+                Variant="Variant.Filled"
+                EndIcon="@(_isLoading ? Icons.Material.Filled.HourglassEmpty : Icons.Material.Filled.ArrowDownward)"
+                Style="background-color: yellowgreen; color: white; width: 200px; height: 60px;">
+                @(_isLoading ? "Preparing..." : "Download Now (x64)")
+            </MudButton>
+        </MudItem>
+
+        <MudItem xl="6" xs="6" sm="6">
+            <MudButton
+                OnClick="@DownloadX86"
+                Disabled="@_isLoading"
+                Variant="Variant.Filled"
+                EndIcon="@(_isLoading ? Icons.Material.Filled.HourglassEmpty : Icons.Material.Filled.ArrowDownward)"
+                Style="background-color: yellowgreen; color: white; width: 200px; height: 60px;">
+                @(_isLoading ? "Preparing..." : "Download Now (x86)")
+            </MudButton>
+        </MudItem>
+
+        <MudItem xl="12" xs="12" sm="12">
+            <MudText>
+                <strong>System Requirements</strong><br />
+                OS: Windows 7 SP1 <br />
+                CPU: Pentium4 2.8G / Sempron 2800<br />
+                RAM: 4 GB<br />
+                GPU: Nvidia GeForce FX5200 or higher <br />
+                DirectX: Versão 9.0c <br />
+            </MudText>
+        </MudItem>
+
+    </MudGrid>
+</MudPaper>

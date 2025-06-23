@@ -1,0 +1,63 @@
+﻿@page "/maps/spawnpoints/{MapId}"
+@attribute [Authorize(Roles = "Administrator, GameMaster")]
+@using DigitalWorldOnline.Commons.Enums;
+@using DigitalWorldOnline.Commons.ViewModel.SpawnPoint;
+
+<PageTitle>DSO - Admin</PageTitle>
+
+<MudTable FixedHeader="true"
+            FixedFooter="false"
+          ServerData="@(new Func<TableState, Task<TableData<SpawnPointViewModel>>>(ServerReload))"
+            Hover="true"
+            SortLabel="Order by"
+            Loading="true"
+            @ref="_table"
+            Elevation="2">
+    <ToolBarContent>
+        <MudStack Row="true" Spacing="2">
+            <MudIcon Icon="@Icons.Material.Filled.PinDrop" Class="icon-title"></MudIcon>
+            <MudText Typo="Typo.h5"><b>@_mapName Spawn Points</b></MudText>
+        </MudStack>
+        <MudSpacer />
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Create">New spawn point</MudButton>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Index" T="SpawnPointViewModel"><b>Index</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Name" T="SpawnPointViewModel"><b>Name</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="X" T="SpawnPointViewModel"><b>X</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Y" T="SpawnPointViewModel"><b>Y</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel Enabled="false" T="SpawnPointViewModel"><b>Actions</b></MudTableSortLabel>
+        </MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Index">@context.Index</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="X">@context.X</MudTd>
+        <MudTd DataLabel="Y">@context.Y</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(() => Update(context.Id))" Title="Update" Size="Size.Small"></MudIconButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="@(() => Delete(context.Id))" Title="Delete" Size="Size.Small"></MudIconButton>
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>No data found.</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Agumon is bringing the data, wait a second...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager InfoFormat="Showing {first_item}-{last_item} of {all_items}"
+                        PageSizeOptions="new int[]{10, 25, 50, 100}"
+                        HorizontalAlignment="HorizontalAlignment.Center"
+                        RowsPerPageString="Rows per page:" />
+    </PagerContent>
+</MudTable>

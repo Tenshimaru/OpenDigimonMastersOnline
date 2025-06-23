@@ -1,0 +1,84 @@
+﻿@page "/clones/update/{CloneId}"
+@attribute [Authorize(Roles = "Administrator, GameMaster")]
+
+@using DigitalWorldOnline.Commons.Enums.ClientEnums;
+@using DigitalWorldOnline.Commons.Enums;
+@using DigitalWorldOnline.Commons.ViewModel.Asset;
+
+<MudPaper Style="overflow-x: hidden;
+        padding: 20px;
+        margin-top: 15px;">
+    <Loader Loading="@Loading">
+        <EditForm Model="@_clone" OnValidSubmit="Update">
+            <MudGrid>
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudIcon Icon="@Icons.Material.Filled.CatchingPokemon" Class="icon-title"></MudIcon>
+                        <MudText Typo="Typo.h5"><b>Update clone config</b></MudText>
+                    </MudStack>
+                </MudItem>
+
+                <MudItem xs="6" xl="6" sm="6">
+                    <MudSelect Label="Clone attribute type"
+                               Required
+                               RequiredError="Required"
+                               T="DigicloneTypeEnum"
+                               For="@(() => _clone.Type)"
+                               @bind-Value="_clone.Type">
+                        <MudSelectItem T="DigicloneTypeEnum" Value="DigicloneTypeEnum.AT">AT</MudSelectItem>
+                        <MudSelectItem T="DigicloneTypeEnum" Value="DigicloneTypeEnum.BL">BL</MudSelectItem>
+                        <MudSelectItem T="DigicloneTypeEnum" Value="DigicloneTypeEnum.CT">CT</MudSelectItem>
+                        <MudSelectItem T="DigicloneTypeEnum" Value="DigicloneTypeEnum.HP">HP</MudSelectItem>
+                        <MudSelectItem T="DigicloneTypeEnum" Value="DigicloneTypeEnum.EV">EV</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="6" xl="6" sm="6">
+                    <MudNumericField @bind-Value="_clone.Level"
+                                     For="@(() => _clone.Level)"
+                                     Label="Clone level"
+                                     T="byte"
+                                     Variant="Variant.Outlined"
+                                     Required
+                                     RequiredError="Required"
+                                     Min="1"
+                                     Max="15" />
+                </MudItem>
+
+                <MudItem xs="6" xl="6" sm="6">
+                    <MudNumericField @bind-Value="_clone.SuccessChance"
+                                     For="@(() => _clone.SuccessChance)"
+                                     Label="Success Chance"
+                                     T="double"
+                                     Variant="Variant.Outlined"
+                                     Required
+                                     RequiredError="Required"
+                                     Min="1"
+                                     Max="100" />
+                </MudItem>
+
+                <MudItem xs="6" xl="6" sm="6">
+                    <MudNumericField @bind-Value="_clone.BreakChance"
+                                     For="@(() => _clone.BreakChance)"
+                                     Label="Break Chance"
+                                     T="double"
+                                     Variant="Variant.Outlined"
+                                     Required
+                                     RequiredError="Required"
+                                     Min="0"
+                                     Max="100" />
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Save changes</MudButton>
+                        <MudButton Color="Color.Inherit" Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="Return">Return</MudButton>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </Loader>
+</MudPaper>

@@ -1,0 +1,63 @@
+﻿@page "/summons/create"
+@attribute [Authorize(Roles = "Administrator, GameMaster")]
+@using DigitalWorldOnline.Commons.ViewModel.Asset;
+
+<MudPaper Style="overflow-x: hidden;
+        padding: 20px;
+        margin-top: 15px;">
+    <Loader Loading="@Loading">
+        <EditForm Model="@_summon" OnValidSubmit="Create">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudIcon Icon="@Icons.Material.Filled.SimCardDownload" Class="icon-title"></MudIcon>
+                        <MudText Typo="Typo.h5"><b>New summon config</b></MudText>
+                    </MudStack>
+                </MudItem>
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudAutocomplete @bind-Value="_summon.ItemInfo"
+                                     @ref="_selectedItemAsset"
+                                     ToStringFunc="@(e => e == null ? null : $"{e.ItemId} - {e.Name}")"
+                                     T="ItemAssetViewModel"
+                                     Label="Summon Item"
+                                     SearchFunc="GetItemAssets"
+                                     Variant="Variant.Outlined"
+                                     Class="docs-search-bar"
+                                     AdornmentIcon="@Icons.Material.Filled.Search">
+                        <ItemTemplate Context="itemAssetResult">
+                            <MudText><strong>@itemAssetResult.ItemId</strong> - @itemAssetResult.Name</MudText>
+                        </ItemTemplate>
+                    </MudAutocomplete>
+                </MudItem>
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudAutocomplete @bind-Value="_summon.MapConfig"
+                                     @ref="_selectedMapAsset"
+                                     ToStringFunc="@(e => e == null ? null : $"{e.MapId} - {e.Name}")"
+                                     T="MapConfigViewModel"
+                                     Label="Summon Map"
+                                     SearchFunc="GetMapAssets"
+                                     Variant="Variant.Outlined"
+                                     Class="docs-search-bar"
+                                     AdornmentIcon="@Icons.Material.Filled.Search">
+                        <ItemTemplate Context="MapAssetResult">
+                            <MudText><strong>@MapAssetResult.MapId</strong> - @MapAssetResult.Name</MudText>
+                        </ItemTemplate>
+                    </MudAutocomplete>
+                </MudItem>
+                <MudItem xs="12" xl="12" sm="12">
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">
+                            Create
+                        </MudButton>
+                        <MudButton Color="Color.Inherit" Variant="Variant.Filled" ButtonType="ButtonType.Button"
+                                   OnClick="Return">Cancel
+                        </MudButton>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </Loader>
+</MudPaper>

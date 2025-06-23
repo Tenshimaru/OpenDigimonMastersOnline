@@ -1,0 +1,159 @@
+﻿@page "/scans/create"
+@attribute [Authorize(Roles = "Administrator, GameMaster")]
+
+@using DigitalWorldOnline.Commons.ViewModel.Asset;
+@using DigitalWorldOnline.Commons.ViewModel.Scans;
+
+<MudPaper Style="overflow-x: hidden;
+        padding: 20px;
+        margin-top: 15px;">
+    <Loader Loading="@Loading">
+        <EditForm Model="@_scan" OnValidSubmit="Create">
+            <MudGrid>
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudIcon Icon="@Icons.Material.Filled.WifiFind" Class="icon-title"></MudIcon>
+                        <MudText Typo="Typo.h5"><b>New scan config</b></MudText>
+                    </MudStack>
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudAutocomplete @bind-Value="_scan.ItemInfo"
+                        @ref="_selectedItemAsset"
+                        ToStringFunc="@(e => e == null ? null : $"{e.ItemId} - {e.Name}")"
+                        T="ItemAssetViewModel"
+                        Label="Item Template"
+                        SearchFunc="GetItemAssets"
+                        Variant="Variant.Outlined"
+                        Class="docs-search-bar"
+                        AdornmentIcon="@Icons.Material.Filled.Search">
+                            <ItemTemplate Context="itemAssetResult">
+                                <MudText><strong>@itemAssetResult.ItemId</strong> - @itemAssetResult.Name</MudText>
+                            </ItemTemplate>
+                    </MudAutocomplete>
+                </MudItem>
+
+                <MudItem xs="6" xl="6" sm="6">
+                    <MudNumericField @bind-Value="_scan.MinAmount"
+                        For="@(() => _scan.MinAmount)"
+                        Label="Min. Possible Rewards"
+                        T="byte"
+                        Variant="Variant.Outlined"
+                        Required
+                        RequiredError="Required"
+                        Min="0"
+                        Max="byte.MaxValue" />
+                </MudItem>
+
+                <MudItem xs="6" xl="6" sm="6">
+                    <MudNumericField @bind-Value="_scan.MaxAmount"
+                        For="@(() => _scan.MaxAmount)"
+                        Label="Max. Possible Rewards"
+                        T="byte"
+                        Variant="Variant.Outlined"
+                        Required
+                        RequiredError="Required"
+                        Min="1"
+                        Max="byte.MaxValue" />
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudTable FixedHeader="true"
+                        FixedFooter="false"
+                        Items="@_scan.Rewards"
+                        Hover="true"
+                        Elevation="2">
+                        <ToolBarContent>
+                            <MudStack Row="true" Spacing="2">
+                                <MudText Typo="Typo.h5"><b>Possible Rewards</b></MudText>
+                            </MudStack>
+                            <MudSpacer />
+                            <MudStack Row="true" Spacing="2">
+                                <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="AddReward">Add reward</MudButton>
+                            </MudStack>
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>
+                                <MudTableSortLabel T="ScanRewardDetailViewModel"><b>Item</b></MudTableSortLabel>
+                            </MudTh>
+                            <MudTh>
+                                <MudTableSortLabel T="ScanRewardDetailViewModel"><b>Chance</b></MudTableSortLabel>
+                            </MudTh>
+                            <MudTh>
+                                <MudTableSortLabel T="ScanRewardDetailViewModel"><b>Min. Amount</b></MudTableSortLabel>
+                            </MudTh>
+                            <MudTh>
+                                <MudTableSortLabel T="ScanRewardDetailViewModel"><b>Max. Amount</b></MudTableSortLabel>
+                            </MudTh>
+                            <MudTh>
+                                <MudTableSortLabel T="ScanRewardDetailViewModel"><b>Rare</b></MudTableSortLabel>
+                            </MudTh>
+                            <MudTh>
+                                <MudTableSortLabel Enabled="false" T="ScanRewardDetailViewModel"><b>Actions</b></MudTableSortLabel>
+                            </MudTh>
+                        </HeaderContent>
+                        <RowTemplate Context="reward">
+                            <MudTd>
+                                <MudAutocomplete 
+                                    @bind-Value="reward.ItemInfo"
+                                    @ref="_selectedItemAsset"
+                                    ToStringFunc="@(e => e == null ? null : $"{e.ItemId} - {e.Name}")"
+                                    T="ItemAssetViewModel"
+                                    Label="Reward Template"
+                                    SearchFunc="GetItemAssets"
+                                    Variant="Variant.Outlined"
+                                    Class="docs-search-bar"
+                                    AdornmentIcon="@Icons.Material.Filled.Search">
+                                    <ItemTemplate Context="itemAssetResult">
+                                        <MudText><strong>@itemAssetResult.ItemId</strong> - @itemAssetResult.Name</MudText>
+                                    </ItemTemplate>
+                                </MudAutocomplete>
+                            </MudTd>
+                            <MudTd>
+                                <MudNumericField T="double" Min="0" Max="100" @bind-Value=reward.Chance />
+                            </MudTd>
+                            <MudTd>
+                                <MudNumericField T="int" Min="1" Max="int.MaxValue" @bind-Value=reward.MinAmount />
+                            </MudTd>
+                            <MudTd>
+                                <MudNumericField T="int" Min="1" Max="int.MaxValue" @bind-Value=reward.MaxAmount />
+                            </MudTd>
+                            <MudTd>
+                                <MudCheckBox T="bool" @bind-Checked=reward.Rare />
+                            </MudTd>
+                            <MudTd>
+                                <MudIconButton 
+                                    Icon="@Icons.Material.Filled.Delete"
+                                    OnClick="@(() => DeleteReward(reward.Id))"
+                                    Title="Delete" 
+                                    Size="Size.Medium" />
+                            </MudTd>
+                        </RowTemplate>
+                        <NoRecordsContent>
+                            <MudText>No data found.</MudText>
+                        </NoRecordsContent>
+                        <LoadingContent>
+                            <MudText>Agumon is bringing the data, wait a second...</MudText>
+                        </LoadingContent>
+                        <PagerContent>
+                            <MudTablePager InfoFormat="Showing {first_item}-{last_item} of {all_items}"
+                                            PageSizeOptions="new int[]{10, 25, 50, 100}"
+                                            HorizontalAlignment="HorizontalAlignment.Center"
+                                            RowsPerPageString="Rows per page:" />
+                        </PagerContent>
+                    </MudTable>
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Create</MudButton>
+                        <MudButton Color="Color.Inherit" Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="Return">Cancel</MudButton>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </Loader>
+</MudPaper>

@@ -1,0 +1,182 @@
+@page "/players/{PlayerId:long}/inventory"
+@using DigitalWorldOnline.Commons.ViewModel.Players;
+
+<PageTitle>Player Inventory - Open Digimon Masters Online</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <MudStack Spacing="3">
+        <!-- Header -->
+        <MudPaper Elevation="2" Class="pa-4">
+            <MudStack Row="true" Spacing="2" AlignItems="AlignItems.Center">
+                <MudIcon Icon="@Icons.Material.Filled.Inventory" Size="Size.Large" Color="Color.Primary" />
+                <MudStack Spacing="0">
+                    <MudText Typo="Typo.h4">Player Inventory</MudText>
+                    @if (PlayerName != null)
+                    {
+                        <MudText Typo="Typo.subtitle1" Color="Color.Secondary">@PlayerName (ID: @PlayerId)</MudText>
+                    }
+                </MudStack>
+                <MudSpacer />
+                <MudButton Variant="Variant.Outlined" 
+                           StartIcon="@Icons.Material.Filled.ArrowBack"
+                           Href="/players"
+                           Color="Color.Default">
+                    Back to Players
+                </MudButton>
+            </MudStack>
+        </MudPaper>
+
+        @if (Loading)
+        {
+            <MudPaper Elevation="2" Class="pa-8">
+                <MudStack AlignItems="AlignItems.Center" Spacing="2">
+                    <MudProgressCircular Indeterminate="true" Size="Size.Large" />
+                    <MudText>Loading inventory data...</MudText>
+                </MudStack>
+            </MudPaper>
+        }
+        else
+        {
+            <!-- Inventory Tabs -->
+            <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+                <!-- Main Inventory -->
+                <MudTabPanel Text="Main Inventory" Icon="@Icons.Material.Filled.Inventory">
+                    <MudGrid>
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.h6" Color="Color.Primary">Main Inventory (@MainInventoryItems.Count items)</MudText>
+                        </MudItem>
+                        @if (MainInventoryItems.Any())
+                        {
+                            @foreach (var item in MainInventoryItems)
+                            {
+                                <MudItem xs="12" sm="6" md="4" lg="3">
+                                    <MudCard Elevation="1">
+                                        <MudCardContent>
+                                            <MudStack Spacing="1">
+                                                <MudText Typo="Typo.subtitle2">@item.ItemName</MudText>
+                                                <MudText Typo="Typo.body2" Color="Color.Secondary">Slot: @item.Slot</MudText>
+                                                <MudText Typo="Typo.body2" Color="Color.Secondary">Amount: @item.Amount</MudText>
+                                                @if (item.ItemId > 0)
+                                                {
+                                                    <MudText Typo="Typo.caption" Color="Color.Tertiary">ID: @item.ItemId</MudText>
+                                                }
+                                            </MudStack>
+                                        </MudCardContent>
+                                        <MudCardActions>
+                                            <MudIconButton Icon="@Icons.Material.Filled.Edit" 
+                                                           Size="Size.Small" 
+                                                           Color="Color.Primary"
+                                                           OnClick="@(() => EditItem(item))" />
+                                            <MudIconButton Icon="@Icons.Material.Filled.Delete" 
+                                                           Size="Size.Small" 
+                                                           Color="Color.Error"
+                                                           OnClick="@(() => DeleteItem(item))" />
+                                        </MudCardActions>
+                                    </MudCard>
+                                </MudItem>
+                            }
+                        }
+                        else
+                        {
+                            <MudItem xs="12">
+                                <MudAlert Severity="Severity.Info">No items in main inventory</MudAlert>
+                            </MudItem>
+                        }
+                    </MudGrid>
+                </MudTabPanel>
+
+                <!-- Warehouse -->
+                <MudTabPanel Text="Warehouse" Icon="@Icons.Material.Filled.Warehouse">
+                    <MudGrid>
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.h6" Color="Color.Primary">Warehouse (@WarehouseItems.Count items)</MudText>
+                        </MudItem>
+                        @if (WarehouseItems.Any())
+                        {
+                            @foreach (var item in WarehouseItems)
+                            {
+                                <MudItem xs="12" sm="6" md="4" lg="3">
+                                    <MudCard Elevation="1">
+                                        <MudCardContent>
+                                            <MudStack Spacing="1">
+                                                <MudText Typo="Typo.subtitle2">@item.ItemName</MudText>
+                                                <MudText Typo="Typo.body2" Color="Color.Secondary">Slot: @item.Slot</MudText>
+                                                <MudText Typo="Typo.body2" Color="Color.Secondary">Amount: @item.Amount</MudText>
+                                                @if (item.ItemId > 0)
+                                                {
+                                                    <MudText Typo="Typo.caption" Color="Color.Tertiary">ID: @item.ItemId</MudText>
+                                                }
+                                            </MudStack>
+                                        </MudCardContent>
+                                        <MudCardActions>
+                                            <MudIconButton Icon="@Icons.Material.Filled.Edit" 
+                                                           Size="Size.Small" 
+                                                           Color="Color.Primary"
+                                                           OnClick="@(() => EditItem(item))" />
+                                            <MudIconButton Icon="@Icons.Material.Filled.Delete" 
+                                                           Size="Size.Small" 
+                                                           Color="Color.Error"
+                                                           OnClick="@(() => DeleteItem(item))" />
+                                        </MudCardActions>
+                                    </MudCard>
+                                </MudItem>
+                            }
+                        }
+                        else
+                        {
+                            <MudItem xs="12">
+                                <MudAlert Severity="Severity.Info">No items in warehouse</MudAlert>
+                            </MudItem>
+                        }
+                    </MudGrid>
+                </MudTabPanel>
+
+                <!-- Equipment -->
+                <MudTabPanel Text="Equipment" Icon="@Icons.Material.Filled.Shield">
+                    <MudGrid>
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.h6" Color="Color.Primary">Equipped Items (@EquippedItems.Count items)</MudText>
+                        </MudItem>
+                        @if (EquippedItems.Any())
+                        {
+                            @foreach (var item in EquippedItems)
+                            {
+                                <MudItem xs="12" sm="6" md="4" lg="3">
+                                    <MudCard Elevation="1">
+                                        <MudCardContent>
+                                            <MudStack Spacing="1">
+                                                <MudText Typo="Typo.subtitle2">@item.ItemName</MudText>
+                                                <MudText Typo="Typo.body2" Color="Color.Secondary">Slot: @item.Slot</MudText>
+                                                <MudText Typo="Typo.body2" Color="Color.Secondary">Amount: @item.Amount</MudText>
+                                                @if (item.ItemId > 0)
+                                                {
+                                                    <MudText Typo="Typo.caption" Color="Color.Tertiary">ID: @item.ItemId</MudText>
+                                                }
+                                            </MudStack>
+                                        </MudCardContent>
+                                        <MudCardActions>
+                                            <MudIconButton Icon="@Icons.Material.Filled.Edit" 
+                                                           Size="Size.Small" 
+                                                           Color="Color.Primary"
+                                                           OnClick="@(() => EditItem(item))" />
+                                            <MudIconButton Icon="@Icons.Material.Filled.Delete" 
+                                                           Size="Size.Small" 
+                                                           Color="Color.Error"
+                                                           OnClick="@(() => DeleteItem(item))" />
+                                        </MudCardActions>
+                                    </MudCard>
+                                </MudItem>
+                            }
+                        }
+                        else
+                        {
+                            <MudItem xs="12">
+                                <MudAlert Severity="Severity.Info">No equipped items</MudAlert>
+                            </MudItem>
+                        }
+                    </MudGrid>
+                </MudTabPanel>
+            </MudTabs>
+        }
+    </MudStack>
+</MudContainer>

@@ -1,0 +1,110 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{1D3C6489-834E-4DAC-8167-E347F16D770D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Distribution Layer", "1 - Distribution Layer", "{A59196FA-2F62-419D-9FEB-5B3DBF1FF4F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application Layer", "2 - Application Layer", "{F39A805C-28AB-4904-AEEB-9F89F6D355C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Domain Layer", "3 - Domain Layer", "{8CCAC871-495F-48D6-954C-074ECB4C7104}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infrastructure Layer", "4 - Infrastructure Layer", "{E901538B-8F83-4AF5-95EE-A5D56707474E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FEF0E5D6-B420-4895-B915-EC35632B670C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalWorldOnline.Account", "src\Source\Distribution\DigitalWorldOnline.Account.Host\DigitalWorldOnline.Account.csproj", "{DD97F5BA-6338-497B-96F6-2E566813FFB7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalWorldOnline.Character", "src\Source\Distribution\DigitalWorldOnline.Character.Host\DigitalWorldOnline.Character.csproj", "{68BA0057-DD99-492B-95DA-10F670FFBD2E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalWorldOnline.Game", "src\Source\Distribution\DigitalWorldOnline.Game.Host\DigitalWorldOnline.Game.csproj", "{D7E683CB-FC10-4192-B36A-1F5F30894262}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalWorldOnline.Admin", "src\Source\Distribution\DigitalWorldOnline.Admin\DigitalWorldOnline.Admin.csproj", "{85E0D34F-EB64-4B92-980D-681641F928F8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalWorldOnline.Commons", "src\Source\Domain\DigitalWorldOnline.Commons\DigitalWorldOnline.Commons.csproj", "{8B835F7D-C610-44D7-9EEC-F06E1CCA72E3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalWorldOnline.Infrastructure", "src\Source\Infra\DigitalWorldOnline.Infrastructure\DigitalWorldOnline.Infrastructure.csproj", "{B9FD08C7-54CF-468E-8D8E-360C7E30A6EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalWorldOnline.Application", "src\Source\Application\DigitalWorldOnline.Application\DigitalWorldOnline.Application.csproj", "{48E43EC3-4EDB-4109-843A-A4FCF9DD1F47}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalWorldOnline.Routine", "src\Source\Distribution\DigitalWorldOnline.Routine.Host\DigitalWorldOnline.Routine\DigitalWorldOnline.Routine.csproj", "{8DC7F660-D9C5-4C65-A0CF-F912F9CD79DB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalWorldOnline.Api", "src\Source\Distribution\DigitalWorldOnline.Account.Api\DigitalWorldOnline.Api.csproj", "{66A1FBFC-3418-467E-86AD-FE6F275E6BB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalWorldOnline.Gateway", "src\Source\Distribution\DigitalWorldOnline.Gateway\DigitalWorldOnline.Gateway.csproj", "{4FC29D7F-770B-48AA-A3ED-635FE1ABECB1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD97F5BA-6338-497B-96F6-2E566813FFB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD97F5BA-6338-497B-96F6-2E566813FFB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD97F5BA-6338-497B-96F6-2E566813FFB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD97F5BA-6338-497B-96F6-2E566813FFB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68BA0057-DD99-492B-95DA-10F670FFBD2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68BA0057-DD99-492B-95DA-10F670FFBD2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68BA0057-DD99-492B-95DA-10F670FFBD2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68BA0057-DD99-492B-95DA-10F670FFBD2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7E683CB-FC10-4192-B36A-1F5F30894262}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7E683CB-FC10-4192-B36A-1F5F30894262}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7E683CB-FC10-4192-B36A-1F5F30894262}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7E683CB-FC10-4192-B36A-1F5F30894262}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85E0D34F-EB64-4B92-980D-681641F928F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85E0D34F-EB64-4B92-980D-681641F928F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85E0D34F-EB64-4B92-980D-681641F928F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85E0D34F-EB64-4B92-980D-681641F928F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B835F7D-C610-44D7-9EEC-F06E1CCA72E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B835F7D-C610-44D7-9EEC-F06E1CCA72E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B835F7D-C610-44D7-9EEC-F06E1CCA72E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B835F7D-C610-44D7-9EEC-F06E1CCA72E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9FD08C7-54CF-468E-8D8E-360C7E30A6EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9FD08C7-54CF-468E-8D8E-360C7E30A6EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9FD08C7-54CF-468E-8D8E-360C7E30A6EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9FD08C7-54CF-468E-8D8E-360C7E30A6EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48E43EC3-4EDB-4109-843A-A4FCF9DD1F47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E43EC3-4EDB-4109-843A-A4FCF9DD1F47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E43EC3-4EDB-4109-843A-A4FCF9DD1F47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E43EC3-4EDB-4109-843A-A4FCF9DD1F47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DC7F660-D9C5-4C65-A0CF-F912F9CD79DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DC7F660-D9C5-4C65-A0CF-F912F9CD79DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DC7F660-D9C5-4C65-A0CF-F912F9CD79DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DC7F660-D9C5-4C65-A0CF-F912F9CD79DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66A1FBFC-3418-467E-86AD-FE6F275E6BB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66A1FBFC-3418-467E-86AD-FE6F275E6BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66A1FBFC-3418-467E-86AD-FE6F275E6BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66A1FBFC-3418-467E-86AD-FE6F275E6BB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FC29D7F-770B-48AA-A3ED-635FE1ABECB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FC29D7F-770B-48AA-A3ED-635FE1ABECB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FC29D7F-770B-48AA-A3ED-635FE1ABECB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FC29D7F-770B-48AA-A3ED-635FE1ABECB1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A59196FA-2F62-419D-9FEB-5B3DBF1FF4F5} = {1D3C6489-834E-4DAC-8167-E347F16D770D}
+		{F39A805C-28AB-4904-AEEB-9F89F6D355C9} = {1D3C6489-834E-4DAC-8167-E347F16D770D}
+		{8CCAC871-495F-48D6-954C-074ECB4C7104} = {1D3C6489-834E-4DAC-8167-E347F16D770D}
+		{E901538B-8F83-4AF5-95EE-A5D56707474E} = {1D3C6489-834E-4DAC-8167-E347F16D770D}
+		{DD97F5BA-6338-497B-96F6-2E566813FFB7} = {A59196FA-2F62-419D-9FEB-5B3DBF1FF4F5}
+		{68BA0057-DD99-492B-95DA-10F670FFBD2E} = {A59196FA-2F62-419D-9FEB-5B3DBF1FF4F5}
+		{D7E683CB-FC10-4192-B36A-1F5F30894262} = {A59196FA-2F62-419D-9FEB-5B3DBF1FF4F5}
+		{85E0D34F-EB64-4B92-980D-681641F928F8} = {A59196FA-2F62-419D-9FEB-5B3DBF1FF4F5}
+		{8B835F7D-C610-44D7-9EEC-F06E1CCA72E3} = {8CCAC871-495F-48D6-954C-074ECB4C7104}
+		{B9FD08C7-54CF-468E-8D8E-360C7E30A6EB} = {E901538B-8F83-4AF5-95EE-A5D56707474E}
+		{48E43EC3-4EDB-4109-843A-A4FCF9DD1F47} = {F39A805C-28AB-4904-AEEB-9F89F6D355C9}
+		{8DC7F660-D9C5-4C65-A0CF-F912F9CD79DB} = {A59196FA-2F62-419D-9FEB-5B3DBF1FF4F5}
+		{66A1FBFC-3418-467E-86AD-FE6F275E6BB8} = {A59196FA-2F62-419D-9FEB-5B3DBF1FF4F5}
+		{4FC29D7F-770B-48AA-A3ED-635FE1ABECB1} = {A59196FA-2F62-419D-9FEB-5B3DBF1FF4F5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {27D41011-C116-4205-9972-86B7B0D4846D}
+	EndGlobalSection
+EndGlobal

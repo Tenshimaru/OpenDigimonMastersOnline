@@ -1,0 +1,109 @@
+﻿@page "/accounts/create"
+@using DigitalWorldOnline.Commons.Enums.Account;
+@attribute [Authorize(Roles = "Administrator")]
+
+<MudPaper Style="overflow-x: hidden;
+        padding: 20px;
+        margin-top: 15px;">
+    <Loader Loading="@Loading">
+        <EditForm Model="@_account" OnValidSubmit="Create">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudIcon Icon="@Icons.Material.Filled.AssignmentTurnedIn" Class="icon-title"></MudIcon>
+                        <MudText Typo="Typo.h5"><b>New account</b></MudText>
+                    </MudStack>
+                </MudItem>
+
+                <MudItem xs="12" xl="6" sm="6">
+                    <MudTextField 
+                        @bind-Value="_account.Username"
+                        For="@(() => _account.Username)"
+                        Label="Username" 
+                        Variant="Variant.Outlined"
+                        Required
+                        RequiredError="Required">
+                    </MudTextField>
+                </MudItem>
+                
+                <MudItem xs="12" xl="6" sm="6">
+                    <MudTextField 
+                        InputType="InputType.Password"
+                        @bind-Value="_account.Password"
+                        For="@(() => _account.Password)"
+                        Label="Password" 
+                        Variant="Variant.Outlined"
+                        Required
+                        RequiredError="Required">
+                    </MudTextField>
+                </MudItem>
+
+                    <MudItem xs="12" xl="6" sm="6">
+                        <MudTextField 
+                            InputType="InputType.Email"
+                            @bind-Value="_account.Email"
+                            For="@(() => _account.Email)"
+                            Label="E-mail"
+                            Variant="Variant.Outlined"
+                            Required
+                            RequiredError="Required">
+                        </MudTextField>
+                    </MudItem>
+                
+                <MudItem xs="12" xl="6" sm="6">
+                    <MudNumericField
+                        @bind-Value="_account.Premium"
+                        For="@(() => _account.Premium)"
+                                     Label="Premium"
+                                     Variant="Variant.Outlined"
+                        Min="0"
+                        Max="int.MaxValue"
+                        Required
+                        RequiredError="Required">
+                    </MudNumericField>
+                </MudItem>
+                
+                
+                <MudItem xs="12" xl="6" sm="6">
+                    <MudNumericField
+                        @bind-Value="_account.Silk"
+                        For="@(() => _account.Silk)"
+                                     Label="Silk"
+                                     Variant="Variant.Outlined"
+                        Min="0"
+                        Max="int.MaxValue"
+                        Required
+                        RequiredError="Required">
+                    </MudNumericField>
+                </MudItem>
+                
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudSelect
+                        Label="Access Level"
+                        Required 
+                        RequiredError="Required"
+                        T="AccountAccessLevelEnum"
+                        For="@(() => _account.AccessLevel)"
+                        @bind-Value="_account.AccessLevel">
+                            <MudSelectItem T="AccountAccessLevelEnum" Value="AccountAccessLevelEnum.Default">Default</MudSelectItem>
+                            <MudSelectItem T="AccountAccessLevelEnum" Value="AccountAccessLevelEnum.Moderator">Moderator</MudSelectItem>
+                            <MudSelectItem T="AccountAccessLevelEnum" Value="AccountAccessLevelEnum.GameMasterOne">Game Master Lv. 1</MudSelectItem>
+                            <MudSelectItem T="AccountAccessLevelEnum" Value="AccountAccessLevelEnum.GameMasterTwo">Game Master Lv. 2</MudSelectItem>
+                            <MudSelectItem T="AccountAccessLevelEnum" Value="AccountAccessLevelEnum.GameMasterThree">Game Master Lv. 3</MudSelectItem>
+                            <MudSelectItem T="AccountAccessLevelEnum" Value="AccountAccessLevelEnum.Administrator">Administrator</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                </MudItem>
+
+                <MudItem xs="12" xl="12" sm="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Create</MudButton>
+                        <MudButton Color="Color.Inherit" Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="Return">Cancel</MudButton>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </Loader>
+</MudPaper>

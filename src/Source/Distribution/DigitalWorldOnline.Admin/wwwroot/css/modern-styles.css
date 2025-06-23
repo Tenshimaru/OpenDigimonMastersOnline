@@ -1,0 +1,322 @@
+/* ===== MODERN STYLES FOR OPEN DIGIMON MASTERS ONLINE ===== */
+
+/* Variáveis CSS Customizadas */
+:root {
+    --primary-gradient: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+    --secondary-gradient: linear-gradient(135deg, #dc004e 0%, #c51162 100%);
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --border-radius: 12px;
+    --border-radius-small: 8px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"] {
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    --glass-bg: rgba(0, 0, 0, 0.2);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* ===== LAYOUT IMPROVEMENTS ===== */
+
+/* AppBar Moderno com Gradient */
+.mud-appbar {
+    background: var(--primary-gradient) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+/* Drawer Moderno */
+.mud-drawer {
+    transition: var(--transition) !important;
+    backdrop-filter: blur(10px);
+    border-right: 1px solid var(--glass-border);
+}
+
+.mud-drawer-header {
+    background: var(--glass-bg);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+/* ===== CARDS MODERNOS ===== */
+
+/* Cards com Sombra e Hover */
+.mud-card {
+    border-radius: var(--border-radius) !important;
+    box-shadow: var(--card-shadow) !important;
+    transition: var(--transition) !important;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+}
+
+.mud-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover) !important;
+}
+
+/* Card Headers */
+.mud-card-header {
+    border-bottom: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+}
+
+/* ===== BOTÕES MODERNOS ===== */
+
+/* Botão Primary com Gradient */
+.mud-button-filled-primary {
+    background: var(--primary-gradient) !important;
+    border-radius: var(--border-radius-small) !important;
+    box-shadow: var(--card-shadow) !important;
+    transition: var(--transition) !important;
+    border: none !important;
+}
+
+.mud-button-filled-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--card-shadow-hover) !important;
+}
+
+/* Botão Secondary */
+.mud-button-filled-secondary {
+    background: var(--secondary-gradient) !important;
+    border-radius: var(--border-radius-small) !important;
+    box-shadow: var(--card-shadow) !important;
+    transition: var(--transition) !important;
+}
+
+/* Botões Outlined */
+.mud-button-outlined {
+    border-radius: var(--border-radius-small) !important;
+    transition: var(--transition) !important;
+    backdrop-filter: blur(10px);
+}
+
+/* ===== NAVEGAÇÃO MODERNA ===== */
+
+/* Nav Menu Groups */
+.mud-nav-group {
+    margin-bottom: 8px;
+}
+
+.mud-nav-group .mud-nav-group-header {
+    border-radius: var(--border-radius-small);
+    transition: var(--transition);
+    margin: 4px 8px;
+}
+
+.mud-nav-group .mud-nav-group-header:hover {
+    background: var(--glass-bg);
+}
+
+/* Nav Links */
+.mud-nav-link {
+    border-radius: var(--border-radius-small) !important;
+    margin: 2px 8px !important;
+    transition: var(--transition) !important;
+}
+
+.mud-nav-link:hover {
+    background: var(--glass-bg) !important;
+    transform: translateX(4px);
+}
+
+.mud-nav-link.mud-nav-link-active {
+    background: var(--primary-gradient) !important;
+    color: white !important;
+    box-shadow: var(--card-shadow);
+}
+
+/* ===== TABELAS MODERNAS ===== */
+
+/* DataGrid */
+.mud-table {
+    border-radius: var(--border-radius) !important;
+    overflow: hidden;
+    box-shadow: var(--card-shadow) !important;
+    border: 1px solid var(--glass-border);
+}
+
+.mud-table-head {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+}
+
+.mud-table-row:hover {
+    background: var(--glass-bg) !important;
+    transition: var(--transition);
+}
+
+/* ===== FORMULÁRIOS MODERNOS ===== */
+
+/* Text Fields */
+.mud-input-control {
+    border-radius: var(--border-radius-small) !important;
+}
+
+.mud-input-outlined .mud-input-outlined-border {
+    border-radius: var(--border-radius-small) !important;
+    transition: var(--transition);
+}
+
+.mud-input-outlined:hover .mud-input-outlined-border {
+    box-shadow: var(--card-shadow);
+}
+
+/* Select */
+.mud-select {
+    border-radius: var(--border-radius-small) !important;
+}
+
+/* ===== DIALOGS MODERNOS ===== */
+
+.mud-dialog {
+    border-radius: var(--border-radius) !important;
+    box-shadow: var(--card-shadow-hover) !important;
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+}
+
+.mud-dialog-title {
+    background: var(--glass-bg);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+/* ===== SNACKBARS MODERNOS ===== */
+
+.mud-snackbar {
+    border-radius: var(--border-radius) !important;
+    box-shadow: var(--card-shadow-hover) !important;
+    backdrop-filter: blur(20px);
+}
+
+/* ===== LOADING STATES ===== */
+
+.loading-shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--border-radius-small);
+}
+
+[data-theme="dark"] .loading-shimmer {
+    background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+    background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* ===== AVATARS E ÍCONES ===== */
+
+.mud-avatar {
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+}
+
+.mud-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: var(--card-shadow-hover);
+}
+
+/* ===== SCROLLBARS CUSTOMIZADAS ===== */
+
+/* Webkit Scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--glass-bg);
+    border-radius: var(--border-radius-small);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-gradient);
+    border-radius: var(--border-radius-small);
+    transition: var(--transition);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-gradient);
+}
+
+/* ===== ANIMAÇÕES CUSTOMIZADAS ===== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Aplicar animações */
+.mud-card {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.mud-nav-link {
+    animation: slideInRight 0.3s ease-out;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+
+@media (max-width: 768px) {
+    .mud-drawer {
+        backdrop-filter: blur(20px);
+    }
+    
+    .mud-card {
+        margin: 8px;
+        border-radius: var(--border-radius-small) !important;
+    }
+    
+    .mud-container {
+        padding: 8px !important;
+    }
+}
+
+/* ===== UTILITÁRIOS ===== */
+
+.glass-effect {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+}
+
+.gradient-text {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hover-lift {
+    transition: var(--transition);
+}
+
+.hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
+}

@@ -1,0 +1,102 @@
+﻿@page "/accounts"
+@attribute [Authorize(Roles = "Administrator")]
+@using DigitalWorldOnline.Commons.Enums;
+@using DigitalWorldOnline.Commons.ViewModel.Accounts;
+
+<PageTitle>DMO - Admin</PageTitle>
+
+<MudExpansionPanels Elevation="2" Style="padding-bottom:15px">
+    <MudExpansionPanel>
+        <TitleContent>
+            <MudStack Row="true" Spacing="2">
+                <MudIcon Icon="@Icons.Material.Filled.FilterAlt" class="mr-3"></MudIcon>
+                <MudText>Filters</MudText>
+            </MudStack>
+        </TitleContent>
+        <ChildContent>
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField T="string" @ref="_filterParameter" Label="Username or E-mail" Variant="Variant.Outlined" ValueChanged="Filter"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" Class="d-flex">
+                    <div class="d-flex ml-auto">
+                        <MudStack Row="true" Spacing="2">
+                            <MudButton Color="Color.Inherit" Variant="Variant.Filled" OnClick="Clear">Clear</MudButton>
+                            <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Refresh">Refresh</MudButton>
+                        </MudStack>
+                    </div>
+                </MudItem>
+
+            </MudGrid>
+        </ChildContent>
+    </MudExpansionPanel>
+</MudExpansionPanels>
+<MudTable FixedHeader="true"
+            FixedFooter="false"
+            ServerData="@(new Func<TableState, Task<TableData<AccountViewModel>>>(ServerReload))"
+            Hover="true"
+            SortLabel="Order by"
+            Loading="true"
+            @ref="_table"
+            Elevation="2">
+    <ToolBarContent>
+        <MudStack Row="true" Spacing="2">
+            <MudIcon Icon="@Icons.Material.Filled.AssignmentTurnedIn" Class="icon-title"></MudIcon>
+            <MudText Typo="Typo.h5"><b>Accounts</b></MudText>
+        </MudStack>
+        <MudSpacer />
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Create">New account</MudButton>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Username" T="AccountViewModel"><b>Username</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Email" T="AccountViewModel"><b>E-mail</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="AccessLevel" T="AccountViewModel"><b>Access Level</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Premium" T="AccountViewModel"><b>Premium</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Silk" T="AccountViewModel"><b>Silk</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="CreateDate" T="AccountViewModel"><b>Creation Date</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="LastConnection" T="AccountViewModel"><b>Last Access</b></MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel Enabled="false" T="AccountViewModel"><b>Actions</b></MudTableSortLabel>
+        </MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Username">@context.Username</MudTd>
+        <MudTd DataLabel="Email">@context.Email</MudTd>
+        <MudTd DataLabel="AccessLevel">@context.AccessLevel</MudTd>
+        <MudTd DataLabel="Premium">@context.Premium</MudTd>
+        <MudTd DataLabel="Silk">@context.Silk</MudTd>
+        <MudTd DataLabel="CreateDate">@context.CreateDate</MudTd>
+        <MudTd DataLabel="LastConnection">@context.LastConnection</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(() => Update(context.Id))" Title="Update" Size="Size.Small"></MudIconButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="@(() => Delete(context.Id))" Title="Delete" Size="Size.Small"></MudIconButton>
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>No data found.</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Agumon is bringing the data, wait a second...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager InfoFormat="Showing {first_item}-{last_item} of {all_items}"
+                        PageSizeOptions="new int[]{10, 25, 50, 100}"
+                        HorizontalAlignment="HorizontalAlignment.Center"
+                        RowsPerPageString="Rows per page:" />
+    </PagerContent>
+</MudTable>
