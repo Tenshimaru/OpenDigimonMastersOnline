@@ -18,7 +18,7 @@ namespace DigitalWorldOnline.Commons.Packets.GameServer
             WriteUInt(formSlot);                    // The evolution slot
             WriteBytes(dEvo.ToArray());             // The evolution itself
             WriteUInt(invSlot);                     // Slot where the item was
-            WriteUInt(itemId);                      // The item Type(item id? L_Type? S_Type?)
+            WriteUInt(itemId);                      // The ID of the used Item
         }
     }
 }
