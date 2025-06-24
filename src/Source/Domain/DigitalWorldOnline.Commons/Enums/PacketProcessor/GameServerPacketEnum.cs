@@ -809,7 +809,12 @@ namespace DigitalWorldOnline.Commons.Enums.PacketProcessor
         /// Item Recharge NPC Result.
         /// </summary>
         TimeChargeResult = 16042,
-        
+
+        /// <summary>
+        /// Sends the Skill Max Level Up
+        /// </summary>
+        SkillCapIncrease = 3245,
+
     }
 
 }
