@@ -1542,10 +1542,18 @@ namespace DigitalWorldOnline.GameHost
                             if (reward.IsTemporary)
                                 reward.SetRemainingTime((uint)reward.ItemInfo.UsageTimeMinutes);
 
-                            if (client.Tamer.Inventory.AddItem(reward))
+                            // Try to add to GiftWarehouse first, if full then add to Inventory
+                            if (client.Tamer.GiftWarehouse.AddItemGiftStorage(reward))
                             {
+                                client.Send(new LoadGiftStoragePacket(client.Tamer.GiftWarehouse));
+                                _sender.Send(new UpdateItemsCommand(client.Tamer.GiftWarehouse));
+                            }
+                            else
+                            {
+                                client.Tamer.Inventory.AddItem(reward);
                                 client.Send(new ReceiveItemPacket(reward, InventoryTypeEnum.Inventory));
                                 _sender.Send(new UpdateItemsCommand(client.Tamer.Inventory));
+                                client.Send(new SystemMessagePacket($"No GiftWarehouse space, sended to Inventory"));
                             }
                         });
                     }
@@ -1565,10 +1573,18 @@ namespace DigitalWorldOnline.GameHost
                             if (reward.IsTemporary)
                                 reward.SetRemainingTime((uint)reward.ItemInfo.UsageTimeMinutes);
 
-                            if (client.Tamer.Inventory.AddItem(reward))
+                            // Try to add to GiftWarehouse first, if full then add to Inventory
+                            if (client.Tamer.GiftWarehouse.AddItemGiftStorage(reward))
                             {
+                                client.Send(new LoadGiftStoragePacket(client.Tamer.GiftWarehouse));
+                                _sender.Send(new UpdateItemsCommand(client.Tamer.GiftWarehouse));
+                            }
+                            else
+                            {
+                                client.Tamer.Inventory.AddItem(reward);
                                 client.Send(new ReceiveItemPacket(reward, InventoryTypeEnum.Inventory));
                                 _sender.Send(new UpdateItemsCommand(client.Tamer.Inventory));
+                                client.Send(new SystemMessagePacket($"No GiftWarehouse space, sended to Inventory"));
                             }
                         });
                     }
@@ -1588,10 +1604,18 @@ namespace DigitalWorldOnline.GameHost
                             if (reward.IsTemporary)
                                 reward.SetRemainingTime((uint)reward.ItemInfo.UsageTimeMinutes);
 
-                            if (client.Tamer.Inventory.AddItem(reward))
+                            // Try to add to GiftWarehouse first, if full then add to Inventory
+                            if (client.Tamer.GiftWarehouse.AddItemGiftStorage(reward))
                             {
+                                client.Send(new LoadGiftStoragePacket(client.Tamer.GiftWarehouse));
+                                _sender.Send(new UpdateItemsCommand(client.Tamer.GiftWarehouse));
+                            }
+                            else
+                            {
+                                client.Tamer.Inventory.AddItem(reward);
                                 client.Send(new ReceiveItemPacket(reward, InventoryTypeEnum.Inventory));
                                 _sender.Send(new UpdateItemsCommand(client.Tamer.Inventory));
+                                client.Send(new SystemMessagePacket($"No GiftWarehouse space, sended to Inventory"));
                             }
                         });
                     }
@@ -1611,10 +1635,18 @@ namespace DigitalWorldOnline.GameHost
                             if (reward.IsTemporary)
                                 reward.SetRemainingTime((uint)reward.ItemInfo.UsageTimeMinutes);
 
-                            if (client.Tamer.Inventory.AddItem(reward))
+                            // Try to add to GiftWarehouse first, if full then add to Inventory
+                            if (client.Tamer.GiftWarehouse.AddItemGiftStorage(reward))
                             {
+                                client.Send(new LoadGiftStoragePacket(client.Tamer.GiftWarehouse));
+                                _sender.Send(new UpdateItemsCommand(client.Tamer.GiftWarehouse));
+                            }
+                            else
+                            {
+                                client.Tamer.Inventory.AddItem(reward);
                                 client.Send(new ReceiveItemPacket(reward, InventoryTypeEnum.Inventory));
                                 _sender.Send(new UpdateItemsCommand(client.Tamer.Inventory));
+                                client.Send(new SystemMessagePacket($"No GiftWarehouse space, sended to Inventory"));
                             }
                         });
                     }

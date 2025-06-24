@@ -198,36 +198,6 @@ namespace DigitalWorldOnline.Game.PacketProcessors
                                 client.SendToAll(new NeonMessagePacket(NeonMessageTypeEnum.Item, client.Tamer.Name,
                                     scanAsset.ItemId,
                                     possibleReward.ItemId).Serialize());
-                            /*switch (mapConfig?.Type)
-                            {
-                                case MapTypeEnum.Dungeon:
-                                    _dungeonsServer.BroadcastForChannel(client.Tamer.Channel,
-                                        new NeonMessagePacket(NeonMessageTypeEnum.Item, client.Tamer.Name,
-                                            scanAsset.ItemId,
-                                            possibleReward.ItemId).Serialize());
-                                    break;
-
-                                case MapTypeEnum.Event:
-                                    _eventServer.BroadcastForChannel(client.Tamer.Channel,
-                                        new NeonMessagePacket(NeonMessageTypeEnum.Item, client.Tamer.Name,
-                                            scanAsset.ItemId,
-                                            possibleReward.ItemId).Serialize());
-                                    break;
-
-                                case MapTypeEnum.Pvp:
-                                    _pvpServer.BroadcastForChannel(client.Tamer.Channel,
-                                        new NeonMessagePacket(NeonMessageTypeEnum.Item, client.Tamer.Name,
-                                            scanAsset.ItemId,
-                                            possibleReward.ItemId).Serialize());
-                                    break;
-
-                                default:
-                                    _mapServer.BroadcastForChannel(client.Tamer.Channel,
-                                        new NeonMessagePacket(NeonMessageTypeEnum.Item, client.Tamer.Name,
-                                            scanAsset.ItemId,
-                                            possibleReward.ItemId).Serialize());
-                                    break;
-                            }*/
 
                             cost += scannedItem.ItemInfo.ScanPrice;
                             scannedItens++;

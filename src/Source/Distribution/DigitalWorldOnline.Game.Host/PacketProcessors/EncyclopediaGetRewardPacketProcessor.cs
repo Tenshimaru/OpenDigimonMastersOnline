@@ -7,6 +7,7 @@ using DigitalWorldOnline.Commons.Interfaces;
 using DigitalWorldOnline.Commons.Models.Base;
 using DigitalWorldOnline.Commons.Packets.Chat;
 using DigitalWorldOnline.Commons.Packets.GameServer;
+using DigitalWorldOnline.Commons.Packets.GameServer.Combat;
 using DigitalWorldOnline.Commons.Packets.Items;
 using DigitalWorldOnline.Commons.Writers;
 using MediatR;
@@ -87,21 +88,28 @@ namespace DigitalWorldOnline.Game.PacketProcessors
                 newItem.SetRemainingTime((uint)newItem.ItemInfo.UsageTimeMinutes);
 
             var itemClone = (ItemModel)newItem.Clone();
-            if (client.Tamer.Inventory.AddItem(newItem))
+
+            // Try to add to GiftWarehouse first, if full then add to Inventory
+            if (client.Tamer.GiftWarehouse.AddItemGiftStorage(newItem))
             {
                 encyclopedia.SetRewardAllowed(false);
                 encyclopedia.SetRewardReceived();
-                // _logger.Information($"Encyclopedia reward allowed: {encyclopedia.IsRewardAllowed.ToString()} | reward received: {encyclopedia.IsRewardReceived.ToString()} | id: {encyclopedia.Id.GetHashCode()}");
+                client.Send(new EncyclopediaReceiveRewardItemPacket(newItem, (int)digimonId));
+                client.Send(new LoadGiftStoragePacket(client.Tamer.GiftWarehouse));
+                await _sender.Send(new UpdateItemsCommand(client.Tamer.GiftWarehouse));
+                await _sender.Send(new UpdateCharacterEncyclopediaCommand(encyclopedia));
+            }
+            else if (client.Tamer.Inventory.AddItem(newItem))
+            {
+                encyclopedia.SetRewardAllowed(false);
+                encyclopedia.SetRewardReceived();
                 client.Send(new EncyclopediaReceiveRewardItemPacket(newItem, (int)digimonId));
                 await _sender.Send(new UpdateItemsCommand(client.Tamer.Inventory));
-                // _logger.Information($"Passed item update packet on encyclopedia get reward {digimonId}");
                 await _sender.Send(new UpdateCharacterEncyclopediaCommand(encyclopedia));
-                
-                // _logger.Information($"Passed encyclopedia update packet on encyclopedia get reward {digimonId}");
+                client.Send(new SystemMessagePacket($"No GiftWarehouse space, sended to Inventory"));
             }
             else
             {
-                // _logger.Information($"failed item pick packet on encyclopedia get reward {digimonId}");
                 client.Send(new PickItemFailPacket(PickItemFailReasonEnum.InventoryFull));
             }
         }

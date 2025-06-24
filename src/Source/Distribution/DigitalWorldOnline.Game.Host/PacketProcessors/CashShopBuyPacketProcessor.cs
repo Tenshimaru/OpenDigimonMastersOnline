@@ -84,14 +84,21 @@ namespace DigitalWorldOnline.Game.PacketProcessors
 
                             var itemClone = (ItemModel)newItem.Clone();
 
-                            if (client.Tamer.Inventory.AddItem(newItem))
+                            // Add item to CashWarehouse first, if full then add to Inventory
+                            if (client.Tamer.AccountCashWarehouse.AddItem(newItem))
                             {
+                                client.Send(new LoadAccountWarehousePacket(client.Tamer.AccountCashWarehouse));
+                                await _sender.Send(new UpdateItemsCommand(client.Tamer.AccountCashWarehouse));
+                                comprado = true;
+                            }
+                            else
+                            {
+                                client.Tamer.Inventory.AddItem(newItem);
+
                                 client.Send(new ReceiveItemPacket(newItem, InventoryTypeEnum.Inventory));
                                 await _sender.Send(new UpdateItemsCommand(client.Tamer.Inventory));
 
-                                //client.Send(new LoadAccountWarehousePacket(client.Tamer.AccountCashWarehouse));
-                                //await _sender.Send(new UpdateItemsCommand(client.Tamer.AccountCashWarehouse));
-
+                                client.Send(new SystemMessagePacket($"No CashWarehouse space, sended to Inventory"));
                                 comprado = true;
                             }
 
