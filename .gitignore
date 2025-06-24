@@ -371,7 +371,7 @@ FodyWeavers.xsd
 /src/Source/Infra/DigitalWorldOnline.Infraestructure/DatabaseContext/DatabaseContext.cs
 
 # All appsettings.Development.json files (contain sensitive data)
-**/appsettings.Development.json
+
 **/appsettings.Local.json
 **/appsettings.Production.json
 **/appsettings.Staging.json
@@ -422,9 +422,6 @@ log-*.txt
 
 # dotnet user secrets
 **/secrets.json
-
-# Entity Framework
-**/Migrations/
 
 # Swagger/OpenAPI
 **/swagger.json
