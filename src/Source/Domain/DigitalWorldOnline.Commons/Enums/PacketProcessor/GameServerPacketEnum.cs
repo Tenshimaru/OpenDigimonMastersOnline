@@ -761,6 +761,11 @@ namespace DigitalWorldOnline.Commons.Enums.PacketProcessor
         HatchRemoveBackup = 3947,
 
         /// <summary>
+        /// Closes the incubator window.
+        /// </summary>
+        IncubatorClose = 3948,
+
+        /// <summary>
         /// Identify an item.
         /// </summary>
         ItemIdentify = 3968,
