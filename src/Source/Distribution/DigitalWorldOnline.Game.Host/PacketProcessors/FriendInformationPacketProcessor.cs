@@ -17,7 +17,7 @@ namespace DigitalWorldOnline.Game.PacketProcessors
         {
             var packet = new GamePacketReader(packetData);
 
-            //TODO: ajeitar
+            //TODO: fix implementation
             client.Send(new FriendInformationPacket());
         }
     }

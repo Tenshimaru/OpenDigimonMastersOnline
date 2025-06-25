@@ -65,18 +65,31 @@ namespace DigitalWorldOnline.Game.PacketProcessors
 
             if (targetClient != null)
             {
-                if (targetClient.Loading || targetClient.Tamer.State != CharacterStateEnum.Ready || targetClient.Tamer.CurrentCondition == ConditionEnum.Away || targetClient.Tamer.TradeCondition)
+                // Verificar se o cliente solicitante está em condições de fazer troca
+                if (client.Tamer.TradeCondition)
                 {
                     client.Send(new TradeRequestErrorPacket(TradeRequestErrorEnum.othertransact));
+                    _logger.Warning($"[TRADE] {client.Tamer.Name} attempted to send trade request while already in trade");
+                    return;
+                }
+
+                if (targetClient.Loading || targetClient.Tamer.State != CharacterStateEnum.Ready ||
+                    targetClient.Tamer.CurrentCondition == ConditionEnum.Away || targetClient.Tamer.TradeCondition)
+                {
+                    client.Send(new TradeRequestErrorPacket(TradeRequestErrorEnum.othertransact));
+                    _logger.Debug($"[TRADE] Trade request from {client.Tamer.Name} to {targetClient.Tamer.Name} rejected - target not available");
                 }
                 else
                 {
                     targetClient.Send(new TradeRequestSucessPacket(client.Tamer.GeneralHandler));
+                    _logger.Information($"[TRADE] Trade request sent from {client.Tamer.Name} to {targetClient.Tamer.Name}");
                 }
             }
             else
             {
-                targetClient.Send(new TradeRequestErrorPacket(TradeRequestErrorEnum.othertransact));
+                // Corrigido: enviar erro para o cliente solicitante, não para o targetClient que é null
+                client.Send(new TradeRequestErrorPacket(TradeRequestErrorEnum.othertransact));
+                _logger.Warning($"[TRADE] {client.Tamer.Name} attempted to send trade request to non-existent target (Handle: {TargetHandle})");
             }
         }
     }

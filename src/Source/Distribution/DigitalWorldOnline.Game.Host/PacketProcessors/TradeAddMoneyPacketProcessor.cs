@@ -65,7 +65,7 @@ namespace DigitalWorldOnline.Game.PacketProcessors
 
             if (client.Tamer.Inventory.Bits < TargetMoney)
             {
-                //sistema de banimento permanente
+                // Permanent ban system
                 targetClient?.Tamer.ClearTrade();
                 targetClient?.Send(new TradeInventoryUnlockPacket(client.Tamer.TargetTradeGeneralHandle));
                 targetClient?.Send(new TradeCancelPacket(client.Tamer.GeneralHandler));

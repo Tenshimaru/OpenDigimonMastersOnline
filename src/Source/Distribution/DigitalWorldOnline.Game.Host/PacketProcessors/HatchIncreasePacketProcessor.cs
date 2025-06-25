@@ -121,17 +121,26 @@ namespace DigitalWorldOnline.Game.PacketProcessors
                 {
                     client.Send(new HatchIncreaseFailedPacket(client.Tamer.GeneralHandler, HatchIncreaseResultEnum.Failled));
 
-                    _logger.Error($"Invalid low class data amount for egg {targetItem} and section {hatchInfo.LowClassDataSection}.");
-                    client.Send(new SystemMessagePacket($"Invalid low class data amount for egg {targetItem} and section {hatchInfo.LowClassDataSection}."));
+                    _logger.Warning($"[HATCH_SECURITY] {client.Tamer.Name} attempted to use invalid low class data amount for egg {targetItem} and section {hatchInfo.LowClassDataSection}");
+                    client.Send(new SystemMessagePacket($"Insufficient data items for hatching."));
 
-                    //sistema de banimento permanente
-                    var banProcessor = SingletonResolver.GetService<BanForCheating>();
-                    var banMessage = banProcessor.BanAccountWithMessage(client.AccountId, client.Tamer.Name, AccountBlockEnum.Permanent, "Cheating", client, "You tried to hatch a digimon using a cheat method, So be happy with ban!");
+                    // Smarter ban system - check if it's really cheating
+                    var timeSinceLastHatchAttempt = DateTime.Now - client.Tamer.LastTradeAttempt; // Reusing property
+                    if (timeSinceLastHatchAttempt.TotalSeconds < 5) // Multiple attempts in short time = suspicious
+                    {
+                        var banProcessor = SingletonResolver.GetService<BanForCheating>();
+                        var banMessage = banProcessor.BanAccountWithMessage(client.AccountId, client.Tamer.Name,
+                            AccountBlockEnum.Permanent, "Cheating", client,
+                            "Multiple invalid hatch attempts detected - possible item duplication exploit");
 
-                    var chatPacket = new NoticeMessagePacket(banMessage);
-                    client.Send(chatPacket); // Envia a mensagem no chat
-
-                    // client.Send(new DisconnectUserPacket($"YOU HAVE BEEN PERMANENTLY BANNED").Serialize());
+                        var chatPacket = new NoticeMessagePacket(banMessage);
+                        client.Send(chatPacket);
+                    }
+                    else
+                    {
+                        // First attempt - just warn
+                        client.Tamer.LastTradeAttempt = DateTime.Now; // Reusing for tracking
+                    }
 
                     return;
                 }
@@ -300,8 +309,17 @@ namespace DigitalWorldOnline.Game.PacketProcessors
                 {
                     client.Send(new HatchIncreaseFailedPacket(client.Tamer.GeneralHandler, HatchIncreaseResultEnum.Failled));
 
-                    _logger.Error($"Invalid mid class data amount for egg {targetItem} and section {hatchInfo.MidClassDataSection}.");
-                    client.Send(new SystemMessagePacket($"Invalid mid class data amount for egg {targetItem} and section {hatchInfo.MidClassDataSection}."));
+                    _logger.Warning($"[HATCH_SECURITY] {client.Tamer.Name} attempted to use invalid mid class data amount for egg {targetItem} and section {hatchInfo.MidClassDataSection}");
+                    client.Send(new SystemMessagePacket($"Insufficient data items for hatching."));
+
+                    // Tracking suspicious attempts
+                    var timeSinceLastHatchAttempt = DateTime.Now - client.Tamer.LastTradeAttempt;
+                    if (timeSinceLastHatchAttempt.TotalSeconds < 5)
+                    {
+                        _logger.Error($"[HATCH_SECURITY] Multiple invalid hatch attempts from {client.Tamer.Name} - possible exploit");
+                    }
+                    client.Tamer.LastTradeAttempt = DateTime.Now;
+
                     return;
                 }
                 else

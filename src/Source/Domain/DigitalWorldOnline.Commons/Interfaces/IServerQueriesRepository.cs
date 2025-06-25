@@ -16,7 +16,7 @@ namespace DigitalWorldOnline.Commons.Interfaces
 {
     public interface IServerQueriesRepository
     {
-        //TODO: separar
+        //TODO: separate
         Task<byte> GetCharacterInServerAsync(long accountId, long serverId);
 
         Task<List<SkillInfoAssetDTO>> GetSkillInfoAssetsAsync();

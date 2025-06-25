@@ -4,6 +4,7 @@ using DigitalWorldOnline.Application.Extensions;
 using DigitalWorldOnline.Commons.Interfaces;
 using DigitalWorldOnline.Commons.Repositories.Admin;
 using DigitalWorldOnline.Game.Managers;
+using DigitalWorldOnline.Game.Services;
 using DigitalWorldOnline.GameHost;
 using DigitalWorldOnline.GameHost.EventsServer;
 using DigitalWorldOnline.Infrastructure;
@@ -104,6 +105,10 @@ namespace DigitalWorldOnline.Game
                     services.AddSingleton<GameMasterCommandsProcessor>();
                     services.AddSingleton<PlayerCommandsProcessor>();
                     services.AddSingleton<BanForCheating>();
+
+                    // Register security services in dependency order
+                    services.AddSingleton<SecurityAuditService>();
+                    services.AddSingleton<IntegrityValidationService>();
 
                     services.AddSingleton<ISender, ScopedSender<Mediator>>();
                     services.AddSingleton<IProcessor, GamePacketProcessor>();

@@ -43,7 +43,7 @@ namespace DigitalWorldOnline.Game.PacketProcessors
             var endDate = DateTime.Now.AddDays(3);
             BanAccountForCheating(accountId, type, reason, startDate, endDate);
 
-            // Retorna a mensagem de banimento
+            // Return ban message
             if (client != null)
             {
                 TimeSpan timeRemaining = endDate - startDate;
@@ -55,20 +55,20 @@ namespace DigitalWorldOnline.Game.PacketProcessors
             return $"User {Name} has been banned for 3 days! reason: {reason}.";
         }
 
-        // Método simplificado para usar no código de banimento
+        // Simplified method for use in ban code
         public string BanAccountWithMessage(long accountId, string Name, AccountBlockEnum type, string reason,
             GameClient? client = null, string? banMessage = null)
         {
-            // Chama o método BanAccountForCheating
+            // Call BanAccountForCheating method
             /*
-             Para banir por 1 hora a partir da data atual:   DateTime.Now.AddHours(1)
-             Para banir por 1 dia a partir da data atual:    DateTime.Now.AddDays(1)
-             Para banir por 1 semana a partir da data atual: DateTime.Now.AddDays(7)
-             Para banir por 1 mês a partir da data atual:    DateTime.Now.AddMonths(1)
-             Para banir por 1 ano a partir da data atual:    DateTime.Now.AddYears(1)
-             Para banir permanentemente : DateTime.MaxValue
+             To ban for 1 hour from current date:   DateTime.Now.AddHours(1)
+             To ban for 1 day from current date:    DateTime.Now.AddDays(1)
+             To ban for 1 week from current date:   DateTime.Now.AddDays(7)
+             To ban for 1 month from current date:  DateTime.Now.AddMonths(1)
+             To ban for 1 year from current date:   DateTime.Now.AddYears(1)
+             To ban permanently:                     DateTime.MaxValue
 
-             fazer um sistema decrescente a cada ban
+             implement a decreasing system for each ban
 
                DateTime endDate;
 
@@ -99,7 +99,7 @@ namespace DigitalWorldOnline.Game.PacketProcessors
             var endDate = DateTime.MaxValue;
             BanAccountForCheating(accountId, type, reason, startDate, endDate);
             // DateTime.Now.AddDays(1) = 1 day | DateTime.MaxValue = Permanent
-            // Retorna a mensagem de banimento
+            // Return ban message
             if (client != null)
             {
                 TimeSpan timeRemaining = endDate - startDate;

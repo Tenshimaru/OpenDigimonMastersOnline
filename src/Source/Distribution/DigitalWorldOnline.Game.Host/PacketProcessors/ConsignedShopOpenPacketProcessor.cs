@@ -118,13 +118,13 @@ namespace DigitalWorldOnline.Game.PacketProcessors
 
                 if (item.Amount > HasQuanty)
                 {
-                    //sistema de banimento permanente
+                    // Permanent ban system
                     var banProcessor = SingletonResolver.GetService<BanForCheating>();
                     var banMessage = banProcessor.BanAccountWithMessage(client.AccountId, client.Tamer.Name,
                         AccountBlockEnum.Permanent, "Cheating", client, "You tried to open consigned shop with amount you don't have using a cheat method, So be happy with ban!");
 
                     var chatPacket = new NoticeMessagePacket(banMessage);
-                    client.Send(chatPacket); // Envia a mensagem no chat
+                    client.Send(chatPacket); // Send message to chat
 
                     // client.Send(new DisconnectUserPacket($"YOU HAVE BEEN PERMANENTLY BANNED").Serialize());
 

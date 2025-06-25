@@ -482,3 +482,4 @@ cache/
 .env.production
 apikeys.json
 tokens.json
+*.ico

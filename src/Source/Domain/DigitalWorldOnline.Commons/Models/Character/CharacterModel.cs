@@ -260,6 +260,8 @@ namespace DigitalWorldOnline.Commons.Models.Character
 
         public ItemListModel TradeInventory { get; private set; }
 
+        public DateTime LastTradeAttempt { get; set; } = DateTime.MinValue;
+
         public ConditionEnum CurrentCondition { get; private set; }
         public ConditionEnum PreviousCondition { get; private set; }
         public bool InBattle { get; private set; }

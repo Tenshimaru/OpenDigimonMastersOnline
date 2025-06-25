@@ -108,7 +108,7 @@ namespace DigitalWorldOnline.Game.PacketProcessors
 
             if (client.Tamer.Inventory.Bits < totalValue)
             {
-                //sistema de banimento permanente
+                // Permanent ban system
                 var banProcessor = SingletonResolver.GetService<BanForCheating>();
                 var banMessage = banProcessor.BanAccountWithMessage(client.AccountId, client.Tamer.Name,
                     AccountBlockEnum.Permanent, "Cheating", client,
