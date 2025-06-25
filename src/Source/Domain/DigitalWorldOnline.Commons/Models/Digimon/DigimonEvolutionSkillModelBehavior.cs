@@ -41,17 +41,10 @@ namespace DigitalWorldOnline.Commons.Models.Digimon
         }
 
         /// <summary>
-        /// Increases Skills Max level.
-        /// </summary>
-        /// <param name="levels">Levels to increase</param>
-        public bool IncreaseSkillCap()
+        /// Increases skill max level step
+        public void IncreaseSkillStep()
         {
-            if (MaxLevel + 5 >= 25)
-                return false;
-
             MaxLevel += 5;
-
-            return true;
         }
 
         public void SetCooldown(int duration)
