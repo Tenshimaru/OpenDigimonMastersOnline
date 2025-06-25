@@ -1266,7 +1266,7 @@ namespace DigitalWorldOnline.Infrastructure.Repositories.Character
                 DeckBuffAssetDTO? deckBuffModel = _context.DeckBuff.AsNoTracking()
                     .Include(x => x.Options)
                     .ThenInclude(x => x.DeckBookInfo)
-                    .FirstOrDefault(x => x.Id == dto.DeckBuffId);
+                    .FirstOrDefault(x => x.GroupIdX == dto.DeckBuffId);
 
                 dto.DeckBuffId = character.DeckBuffId;
                 dto.DeckBuff = deckBuffModel;
