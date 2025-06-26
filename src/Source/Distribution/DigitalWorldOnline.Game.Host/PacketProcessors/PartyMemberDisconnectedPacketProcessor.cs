@@ -14,7 +14,7 @@ namespace DigitalWorldOnline.Game.PacketProcessors
         public GameServerPacketEnum Type => GameServerPacketEnum.PartyMemberDisconnect;
 
         private const string GameServerAddress = "GameServer:Address";
-        private const string GamerServerPublic = "GameServer:PublicAddress";
+        private const string GameServerPublicAddress = "GameServer:PublicAddress";
         private const string GameServerPort = "GameServer:Port";
 
         private readonly PartyManager _partyManager;

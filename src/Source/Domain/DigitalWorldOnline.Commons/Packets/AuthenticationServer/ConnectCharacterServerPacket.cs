@@ -13,7 +13,7 @@ namespace DigitalWorldOnline.Commons.Packets.AuthenticationServer
         {
             Type(PacketNumber);
             WriteUInt((uint)accountId, 4);
-            WriteInt((int)accountId, 8); 
+            WriteInt((int)accountId, 8);
             WriteString(ipAddress, 12);
             WriteUInt(uint.Parse(port));
         }

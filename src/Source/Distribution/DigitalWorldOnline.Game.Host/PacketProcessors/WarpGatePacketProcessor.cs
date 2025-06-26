@@ -23,7 +23,7 @@ namespace DigitalWorldOnline.Game.PacketProcessors
         public GameServerPacketEnum Type => GameServerPacketEnum.WarpGate;
 
         private const string GameServerAddress = "GameServer:Address";
-        private const string GamerServerPublic = "GameServer:PublicAddress";
+        private const string GameServerPublicAddress = "GameServer:PublicAddress";
         private const string GameServerPort = "GameServer:Port";
 
         private readonly PartyManager _partyManager;
@@ -94,7 +94,9 @@ namespace DigitalWorldOnline.Game.PacketProcessors
                 client.Tamer.UpdateState(CharacterStateEnum.Loading);
                 await _sender.Send(new UpdateCharacterStateCommand(client.TamerId, CharacterStateEnum.Loading));
 
-                client.Send(new MapSwapPacket(_configuration[GamerServerPublic], _configuration[GameServerPort],
+                // Use PublicAddress for client connection, fallback to Address if not configured
+                var serverAddress = _configuration[GameServerPublicAddress] ?? _configuration[GameServerAddress];
+                client.Send(new MapSwapPacket(serverAddress, _configuration[GameServerPort],
                     mapId, destination.X, destination.Y));
             }
             else
@@ -179,7 +181,9 @@ namespace DigitalWorldOnline.Game.PacketProcessors
 
                 client.SetGameQuit(false);
 
-                client.Send(new MapSwapPacket(_configuration[GamerServerPublic], _configuration[GameServerPort],
+                // Use PublicAddress for client connection, fallback to Address if not configured
+                var serverAddress = _configuration[GameServerPublicAddress] ?? _configuration[GameServerAddress];
+                client.Send(new MapSwapPacket(serverAddress, _configuration[GameServerPort],
                     client.Tamer.Location.MapId, client.Tamer.Location.X, client.Tamer.Location.Y));
 
                 var party = _partyManager.FindParty(client.TamerId);

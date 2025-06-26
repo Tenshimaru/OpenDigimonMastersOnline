@@ -32,6 +32,8 @@ namespace DigitalWorldOnline.Account
         private readonly AuthenticationServerConfigurationModel _authenticationServerConfiguration;
 
         private const string CharacterServerAddress = "CharacterServer:Address";
+        private const string CharacterServerPublicAddress = "CharacterServer:PublicAddress";
+        private const string CharacterServerPort = "CharacterServer:Port";
 
         private const int HandshakeDegree = 32321;
 
@@ -289,8 +291,13 @@ namespace DigitalWorldOnline.Account
                     var targetServer = servers.First(x => x.Id == serverId);
 
                     DebugLog($"Sending selected server info...");
+
+                    // Use PublicAddress for client connection, fallback to Address if not configured
+                    var characterServerAddress = _configuration[CharacterServerPublicAddress] ?? _configuration[CharacterServerAddress];
+                    var characterServerPort = _configuration[CharacterServerPort];
+
                     client.Send(new ConnectCharacterServerPacket(client.AccountId,
-                        _configuration[CharacterServerAddress], targetServer.Port.ToString()));
+                        characterServerAddress, characterServerPort));
                 }
                     break;
 

@@ -29,7 +29,7 @@ namespace DigitalWorldOnline.Character
         private readonly IMapper _mapper;
 
         private const string GameServerAddress = "GameServer:Address";
-        private const string GamerServerPublic = "GameServer:PublicAddress";
+        private const string GameServerPublicAddress = "GameServer:PublicAddress";
         private const string GameServerPort = "GameServer:Port";
         private const int HandshakeDegree = 32321;
         private const int HandshakeStampDegree = 65535;
@@ -240,8 +240,12 @@ namespace DigitalWorldOnline.Character
                         await _sender.Send(new UpdateCharacterInitialPacketSentOnceSentCommand(character.Id, false));
 
                         _logger.Debug($"Sending selected server info...");
+
+                        // Use PublicAddress for client connection, fallback to Address if not configured
+                        var serverAddress = _configuration[GameServerPublicAddress] ?? _configuration[GameServerAddress];
+
                         client.Send(new ConnectGameServerInfoPacket(
-                            _configuration[GameServerAddress],
+                            serverAddress,
                             _configuration[GameServerPort],
                             character.Location.MapId).Serialize());
                     }

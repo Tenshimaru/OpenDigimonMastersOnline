@@ -177,17 +177,17 @@ Key environment variables for configuration:
 DMOX_CONNECTION_STRING=<your_connection_string>
 
 # Game Server
-GAME_SERVER_ADDRESS=0.0.0.0
+GAME_SERVER_ADDRESS=0.0.0.0          # Server binding address
 GAME_SERVER_PORT=7607
-GAME_SERVER_PUBLIC_ADDRESS=localhost
+GAME_SERVER_PUBLIC_ADDRESS=127.0.0.1  # Client connection address
 
 # Authentication Server
-AUTH_SERVER_ADDRESS=0.0.0.0
+AUTH_SERVER_ADDRESS=0.0.0.0          # Server binding address
 AUTH_SERVER_PORT=7606
 
 # Character Server
-CHAR_SERVER_ADDRESS=0.0.0.0
-CHAR_SERVER_PORT=7050
+CHARACTER_SERVER_ADDRESS=0.0.0.0     # Server binding address
+CHARACTER_SERVER_PORT=7608
 ```
 
 ## 🛠️ Development
