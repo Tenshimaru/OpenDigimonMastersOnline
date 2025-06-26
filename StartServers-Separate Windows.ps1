@@ -60,25 +60,25 @@ Write-Host ""
 $servers = @(
     @{
         Name = "Authentication Server"
-        Path = "src\Source\Distribution\DigitalWorldOnline.Account.Host\bin\Debug\net8.0\DigitalWorldOnline.Account.exe"
+        Path = "src\Source\Distribution\DigitalWorldOnline.Account.Host\bin\Release\net8.0\DigitalWorldOnline.Account.exe"
         Icon = "🔐"
         WindowTitle = "UDMO - Authentication Server"
     },
     @{
         Name = "Character Server"
-        Path = "src\Source\Distribution\DigitalWorldOnline.Character.Host\bin\Debug\net8.0\DigitalWorldOnline.Character.exe"
+        Path = "src\Source\Distribution\DigitalWorldOnline.Character.Host\bin\Release\net8.0\DigitalWorldOnline.Character.exe"
         Icon = "👤"
         WindowTitle = "UDMO - Character Server"
     },
     @{
         Name = "Game Server"
-        Path = "src\Source\Distribution\DigitalWorldOnline.Game.Host\bin\Debug\net8.0\DigitalWorldOnline.Game.exe"
+        Path = "src\Source\Distribution\DigitalWorldOnline.Game.Host\bin\Release\net8.0\DigitalWorldOnline.Game.exe"
         Icon = "🎮"
         WindowTitle = "UDMO - Game Server"
     },
     @{
         Name = "Routine Server"
-        Path = "src\Source\Distribution\DigitalWorldOnline.Routine.Host\DigitalWorldOnline.Routine\bin\Debug\net8.0\DigitalWorldOnline.Routine.exe"
+        Path = "src\Source\Distribution\DigitalWorldOnline.Routine.Host\DigitalWorldOnline.Routine\bin\Release\net8.0\DigitalWorldOnline.Routine.exe"
         Icon = "⚙️"
         WindowTitle = "UDMO - Routine Server"
     }
