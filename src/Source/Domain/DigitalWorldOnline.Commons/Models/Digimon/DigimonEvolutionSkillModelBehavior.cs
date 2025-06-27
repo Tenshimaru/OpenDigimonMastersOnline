@@ -40,6 +40,13 @@ namespace DigitalWorldOnline.Commons.Models.Digimon
             return true;
         }
 
+        /// <summary>
+        /// Increases skill max level step
+        public void IncreaseSkillStep()
+        {
+            MaxLevel += 5;
+        }
+
         public void SetCooldown(int duration)
         {
             Duration = duration;
